@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Infraestructure.Models.Usuario>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Authors table</h6>
+                <a href="#" class="btn btn-primary font-weight-normal"><i class="fa fa-user-plus" style="margin-right: 2px"></i> Crear usuario</a>
+            </div>
+
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> @Html.DisplayNameFor(model => model.nombre)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> @Html.DisplayNameFor(model => model.email)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> @Html.DisplayNameFor(model => model.Telefono)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">@Html.DisplayNameFor(model => model.TipoUsuario)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">@Html.DisplayNameFor(model => model.estado)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                                @*<th class="text-secondary opacity-7"></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            @*<div>
+                                                    <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                </div>*@
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.nombre)</h6>
+                                                <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.apellidos)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.email)</p>
+                                        <p class="text-xs text-secondary mb-0">Organization</p>
+                                    </td>
+                                    <td>
+                                        @foreach (var tel in item.Telefono)
+                                        {
+                                            <p class="text-xs font-weight-bold mb-0">@tel.numero</p>
+                                        }
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        @Html.DisplayFor(modelItem => item.TipoUsuario.FirstOrDefault().descripcion)
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+
+                                        @if (item.estado == 0)
+                                        {
+                                            <span class="badge badge-sm bg-gradient-danger">Inactivo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-sm bg-gradient-success">Activo</span>
+                                        }
+
+
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <a href="@Url.Action("Edit", new { id = item.id })" class="icon-link">
+                                            <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link">
+                                            <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link">
+                                            <i class="fa fa-trash" style="color: palevioletred; margin-right: 10px;"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@*<table class="table">*@
+@*<tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apellidos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.password)
+        </th>
+        <th></th>
+    </tr>*@
+
+

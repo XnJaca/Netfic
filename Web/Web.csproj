@@ -153,6 +153,7 @@
     <Content Include="Content\css\nucleo-svg.css" />
     <Content Include="Content\css\soft-ui-dashboard.css" />
     <Content Include="Content\css\soft-ui-dashboard.min.css" />
+    <Content Include="Content\db\script.sql" />
     <Content Include="Content\fonts\nucleo-icons.svg" />
     <Content Include="Content\img\curved-images\curved-10.jpg" />
     <Content Include="Content\img\curved-images\curved-11.jpg" />

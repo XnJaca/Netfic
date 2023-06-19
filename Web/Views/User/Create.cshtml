@@ -1,13 +1,11 @@
 ﻿@model Infraestructure.Models.Usuario
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    var inputTelefonos = "";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 
 @using (Html.BeginForm("Save", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -18,8 +16,6 @@
         <h4>Usuario</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
-
 
         <div class="row">
             <div class="col-md-4">
@@ -53,6 +49,7 @@
             </div>
         </div>
 
+
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -66,30 +63,30 @@
 
             <div class="col-md-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TipoUsuario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.TipoUsuario, "Tipo Usuario ", htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-10">
-                        @*Envio como parametro*@
+                        @*Html.DropDownList("IdAutor", null, htmlAttributes: new { @class = "form-control" })*@
                         @Html.DropDownList("tipoUsuarios",
                         (MultiSelectList)ViewBag.idTipoUsuario,
                         htmlAttributes: new { @class = "form-control", multiple = "multiple" })
-                        @Html.ValidationMessageFor(model => model.TipoUsuario.FirstOrDefault().id, "", new { @class = "text-danger" }) 
+                        @Html.ValidationMessageFor(model => model.TipoUsuario.FirstOrDefault().id, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.estado, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.estado, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.estado, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
         <div class="row">
-            @* <input type="hidden" id="telefonos" name="telefonos" />*@
+            <input type="hidden" id="telefonos" name="telefonos" />
             <div class="col-md-4">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-3" })
@@ -119,46 +116,25 @@
                     <div class="col-md-8"></div>
                     <button type="button" id="addPhoneNumberButton" class="btn btn-success font-weight-normal btn-lg w-80">Agregar</button>
                 </div>
-                <ul id="phoneNumbersList">
-                    @if (ViewBag.telefonos != null)
-                    {
-                        foreach (var telefono in ViewBag.telefonos)
-                        {
-                            <li>
-                                <span>@telefono.Text</span>
-                                @*<span>(@telefono.tipoTelefono)</span>*@
-                                <i class="fa fa-minus text-danger" onclick="removePhoneNumber(this)"></i>
-                            </li>
-                        }
-                    }
-                </ul>
+                <ul id="phoneNumbersList"></ul>
             </div>
-            <input type="hidden" id="telefonos" name="telefonos" value="" />
-
         </div>
     </div>
+
+
+
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <div class="row">
-                <div class="col-md-6 d-flex justify-content-start mb-3 align-items-center">
-                    <a href="@Url.Action("Index")">
-                        <i class="fas fa-arrow-left"></i> Volver a la lista
-                    </a>
-                </div>
-                <div class="col-md-6 d-flex justify-content-end mb-3 align-items-center">
-                    <input type="submit" value="Guardar" class="btn btn-lg" />
-                </div>
-            </div>
+            <input type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
+}
 
-
-}   
-
-@*<div>
+<div>
     @Html.ActionLink("Back to List", "Index")
-</div>*@
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -167,7 +143,6 @@
         var phoneTypeSelect = document.getElementById("phoneTypeSelect");
         var addPhoneNumberButton = document.getElementById("addPhoneNumberButton");
         var phoneNumbersList = document.getElementById("phoneNumbersList");
-        var hiddenField = document.getElementById("telefonos");
 
         addPhoneNumberButton.addEventListener("click", function () {
             var phoneNumber = phoneNumberInput.value.replace(/[-\s]/g, ""); // Eliminar guiones y espacios
@@ -187,14 +162,13 @@
                 listItem.appendChild(phoneNumberText);
 
                 var phoneTypeText = document.createElement("span");
-                phoneTypeText.textContent = " " + phoneTypeSelect.value;
+                phoneTypeText.textContent = " (" + phoneTypeSelect.value + ")  ";
                 listItem.appendChild(phoneTypeText);
 
                 var removeIcon = document.createElement("i");
                 removeIcon.classList.add("fa", "fa-minus", "text-danger");
                 removeIcon.addEventListener("click", function () {
                     listItem.remove();
-                    updateHiddenField();
                 });
                 listItem.appendChild(removeIcon);
 
@@ -202,7 +176,13 @@
 
                 phoneNumberInput.value = "";
 
-                updateHiddenField();
+                // Agregar los datos del teléfono a un campo oculto
+                var telefonoData = document.getElementById("telefonos");
+                var telefonoInfo = phoneNumber + "-" + phoneTypeSelect.value;
+                if (telefonoData.value !== "") {
+                    telefonoData.value += ",";
+                }
+                telefonoData.value += telefonoInfo;
             }
         });
 
@@ -219,61 +199,6 @@
         function showError(errorMessage) {
             phoneNumberInput.classList.add("is-invalid");
             phoneNumberError.textContent = errorMessage;
-        }
-
-        function updateHiddenField() {
-            var phoneNumberSpans = phoneNumbersList.getElementsByTagName("span");
-
-            var phoneNumberData = Array.from(phoneNumberSpans).map(function (span) {
-                return span.textContent.trim();
-            }).join(", ");
-
-            hiddenField.value = phoneNumberData;
-        }
-
-        document.getElementById("addPhoneNumberButton").addEventListener("click", function () {
-            var phoneNumber = document.getElementById("phoneNumberInput").value;
-            var phoneType = document.getElementById("phoneTypeSelect").value;
-
-            if (phoneNumber && phoneType) {
-                var phoneNumbersList = document.getElementById("phoneNumbersList");
-
-                var listItem = document.createElement("li");
-                var phoneNumberSpan = document.createElement("span");
-                var phoneTypeSpan = document.createElement("span");
-                var removeIcon = document.createElement("i");
-
-                phoneNumberSpan.textContent = phoneNumber;
-                phoneTypeSpan.textContent = phoneType;
-                removeIcon.className = "fa fa-minus text-danger";
-                removeIcon.onclick = function () {
-                    removePhoneNumber(this);
-                };
-
-                listItem.appendChild(phoneNumberSpan);
-                listItem.appendChild(phoneTypeSpan);
-                listItem.appendChild(removeIcon);
-
-                phoneNumbersList.appendChild(listItem);
-
-                updateHiddenField();
-            }
-        });
-
-        function removePhoneNumber(element) {
-            var listItem = element.parentNode;
-            listItem.remove();
-            updateHiddenField();
-        }
-
-        // Establecer los valores de los teléfonos cuando se carga la página
-        var phoneNumberSpans = phoneNumbersList.getElementsByTagName("span");
-        if (phoneNumberSpans.length > 0) {
-            var phoneNumbers = Array.from(phoneNumberSpans).map(function (span) {
-                return span.textContent.trim();
-            });
-
-            hiddenField.value = phoneNumbers.join(", ");
         }
     });
 </script>

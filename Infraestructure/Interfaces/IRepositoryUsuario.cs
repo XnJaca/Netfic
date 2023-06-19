@@ -14,7 +14,7 @@ namespace Infraestructure.Interfaces
 
         Usuario GetUsuarioById(int id);
 
-        Usuario Save(Usuario usuario);
+        Usuario Save(Usuario usuario, string[] pTipoUsuarios, string[] pTelefonos);
 
         Usuario Login(string username, string password);
 

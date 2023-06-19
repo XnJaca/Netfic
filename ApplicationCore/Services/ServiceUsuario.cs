@@ -39,9 +39,10 @@ namespace ApplicationCore.Services
             throw new NotImplementedException();
         }
 
-        public Usuario Save(Usuario pUsuario)
+        public Usuario Save(Usuario pUsuario, string[] pTipoUsuarios, string[] pTelefonos)
         {
-            throw new NotImplementedException();
+            IRepositoryUsuario repository = new RepositoryUsuario();
+            return repository.Save(pUsuario, pTipoUsuarios, pTelefonos);
         }
     }
 }

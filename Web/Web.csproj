@@ -190,6 +190,7 @@
     <Content Include="Content\img\small-logos\logo-webdev.svg" />
     <Content Include="Content\img\small-logos\logo-xd.svg" />
     <Content Include="Content\img\team-2.jpg" />
+    <Content Include="Content\img\team-3.jpg" />
     <Content Include="Scripts\js\core\bootstrap.bundle.min.js" />
     <Content Include="Scripts\js\core\bootstrap.min.js" />
     <Content Include="Scripts\js\core\popper.min.js" />
@@ -253,6 +254,8 @@
     <Content Include="Views\Auth\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

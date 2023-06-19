@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IServiceTelefono.cs" />
+    <Compile Include="Interfaces\IServiceTipoUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IServiceUsuario.cs" />
+    <Compile Include="Services\ServiceTelefono.cs" />
+    <Compile Include="Services\ServiceTipoUsuario.cs" />
     <Compile Include="Services\ServiceUsuario.cs" />
   </ItemGroup>
   <ItemGroup>

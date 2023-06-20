@@ -1,6 +1,13 @@
 ﻿@{
 
     var oUsuario = Session["Usuario"] as Infraestructure.Models.Usuario;
+
+    // Almacenar el tipo de usuario activo en una variable en sesión
+    Session["TipoUsuarioActivo"] = oUsuario.TipoUsuario.FirstOrDefault()?.descripcion;
+
+    // Obtener el tipo de usuario activo de la variable en sesión
+    var tipoUsuarioActivo = Session["TipoUsuarioActivo"] as string;
+
 }
 <!-- Navbar -->
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
@@ -20,9 +27,28 @@
                 </div>
             </div>
             <ul class="navbar-nav  justify-content-end">
-                <li class="nav-item d-flex align-items-center">
-                    <a class="btn btn-outline-primary btn-sm mb-0 me-3" target="_blank" href="">@(oUsuario.TipoUsuario.FirstOrDefault()?.descripcion)</a>
-                </li>
+                <div class="dropdown">
+                    <a href="javascript:;" class="btn btn-outline-primary btn-sm mb-0 me-3 dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
+                        @(tipoUsuarioActivo)
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        @foreach (var tipoUsuario in oUsuario.TipoUsuario)
+                        {
+                            <li>
+                                @if (tipoUsuario.id == 1)
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Home")">@tipoUsuario.descripcion</a>
+                                }
+                                else if (tipoUsuario.id == 2)
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("CustomerIndex", "Home")">@tipoUsuario.descripcion</a>
+                                }
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+
 
                 <li class="nav-item dropdown pe-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">

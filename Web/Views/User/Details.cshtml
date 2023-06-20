@@ -45,13 +45,11 @@
                         <div class="col-md-4 text-end">
                             @if (Model.estado == 0)
                             {
-
-
                                 <span class="badge badge-sm bg-gradient-danger me-4">Inactivo</span>
                             }
                             else
                             {
-                                <span class="badge badge-sm bg-gradient-danger me-4">Inactivo</span>
+                                <span class="badge badge-sm bg-gradient-success me-4">Activo</span>
                             }
                             <a href="@Url.Action("Edit", "User", new { id = Model.id })">
                                 <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>

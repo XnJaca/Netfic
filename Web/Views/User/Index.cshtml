@@ -9,13 +9,32 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                <h6>Authors table</h6>
+                <h6>Listado de Usuarios</h6>
+
+
+                <div class="form-group">
+                    <div class="input-group">
+                        @*<span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>*@
+                        <input type="text" id="buscarInput" class="form-control" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
+                    </div>
+                </div>
+
                 <a href="@Url.Action("Create")" class="btn btn-primary font-weight-normal"><i class="fa fa-user-plus" style="margin-right: 2px"></i> Crear usuario</a>
+
+
+
+                @*<input type="text" id="buscarInput" class="dataTable-input" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
+        <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>*@
             </div>
 
             <div class="card-body px-0 pt-0 pb-2">
+                @*<div class="input-group mb-3">
+                    <input type="text" id="buscarInput" class="form-control" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
+                    <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>
+                </div>*@
+
                 <div class="table-responsive p-0">
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-0" id="usuariosTable">
                         <thead>
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> @Html.DisplayNameFor(model => model.nombre)</th>
@@ -66,21 +85,18 @@
                                         {
                                             <span class="badge badge-sm bg-gradient-success">Activo</span>
                                         }
-
-
                                     </td>
                                     <td class="align-middle text-center">
-                                        <a href="@Url.Action("Edit", new { id = item.id })" class="icon-link">
+                                        <a href="@Url.Action("Edit", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Usuario">
                                             <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
                                         </a>
-                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link">
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
                                             <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
                                         </a>
-                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link">
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Usuario">
                                             <i class="fa fa-trash" style="color: palevioletred; margin-right: 10px;"></i>
                                         </a>
                                     </td>
-
                                 </tr>
                             }
                         </tbody>
@@ -91,6 +107,31 @@
     </div>
 </div>
 
+
+
+@section Scripts {
+    <script>
+        function buscarUsuarios() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("buscarInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("usuariosTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Change index to search in a different column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+}
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@

@@ -141,6 +141,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -155,6 +156,12 @@
     <Content Include="Content\css\soft-ui-dashboard.min.css" />
     <Content Include="Content\db\script.sql" />
     <Content Include="Content\fonts\nucleo-icons.svg" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\img\curved-images\curved-10.jpg" />
     <Content Include="Content\img\curved-images\curved-11.jpg" />
     <Content Include="Content\img\curved-images\curved-6.jpg" />
@@ -192,6 +199,10 @@
     <Content Include="Content\img\small-logos\logo-xd.svg" />
     <Content Include="Content\img\team-2.jpg" />
     <Content Include="Content\img\team-3.jpg" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\js\core\bootstrap.bundle.min.js" />
     <Content Include="Scripts\js\core\bootstrap.min.js" />
     <Content Include="Scripts\js\core\popper.min.js" />
@@ -257,6 +268,9 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\Default.cshtml" />
+    <Content Include="Views\Home\CustomerIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

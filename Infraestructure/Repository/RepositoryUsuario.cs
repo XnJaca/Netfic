@@ -207,18 +207,26 @@ namespace Infraestructure.Repository
                                 foreach (var telefonoString in pTelefonos)
                                 {
                                     var phones = telefonoString.Split(',');
-                                    foreach (var phone in phones)
+                                    var telefono = new Telefono
                                     {
-                                        var phonePart = phone.Split('-');
-                                        var telefono = new Telefono
-                                        {
-                                            usuarioId = oUsuario.id,
-                                            numero = Int32.Parse(phonePart[0]),
-                                            tipoTelefono = phonePart[1]
-                                        };
-                                        usuario.Telefono.Add(telefono);
-                                        ctx.Telefono.Add(telefono);
-                                    }
+                                        usuarioId = oUsuario.id,
+                                        numero = Int32.Parse(phones[0]),
+                                        tipoTelefono = phones[1]
+                                    };
+                                    usuario.Telefono.Add(telefono);
+                                    ctx.Telefono.Add(telefono);
+                                    //foreach (var phone in phones)
+                                    //{
+                                    //    var phonePart = phone.Split('-');
+                                    //    var telefono = new Telefono
+                                    //    {
+                                    //        usuarioId = oUsuario.id,
+                                    //        numero = Int32.Parse(phonePart[0]),
+                                    //        tipoTelefono = phonePart[1]
+                                    //    };
+                                    //    usuario.Telefono.Add(telefono);
+                                    //    ctx.Telefono.Add(telefono);
+                                    //}
                                 }
 
                                 ctx.Entry(usuario).State = EntityState.Modified;

@@ -20,6 +20,7 @@ namespace Infraestructure.Models
             this.EvaluacionProducto = new HashSet<EvaluacionProducto>();
             this.Foto = new HashSet<Foto>();
             this.PedidoProducto = new HashSet<PedidoProducto>();
+            this.Chat = new HashSet<Chat>();
         }
     
         public int id { get; set; }
@@ -40,5 +41,7 @@ namespace Infraestructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoProducto> PedidoProducto { get; set; }
         public virtual Usuario Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Chat> Chat { get; set; }
     }
 }

@@ -33,12 +33,13 @@ namespace Infraestructure.Models
         public virtual DbSet<EvaluacionProducto> EvaluacionProducto { get; set; }
         public virtual DbSet<EvaluacionVendedor> EvaluacionVendedor { get; set; }
         public virtual DbSet<Foto> Foto { get; set; }
-        public virtual DbSet<MetodoPago> MetodoPago { get; set; }
-        public virtual DbSet<Pedido> Pedido { get; set; }
         public virtual DbSet<PedidoProducto> PedidoProducto { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Telefono> Telefono { get; set; }
         public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<MetodoPago> MetodoPago { get; set; }
+        public virtual DbSet<Pedido> Pedido { get; set; }
     }
 }

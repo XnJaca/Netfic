@@ -21,7 +21,7 @@ namespace Infraestructure.Models
         public double subtotal { get; set; }
     
         public virtual EstadoPedido EstadoPedido { get; set; }
-        public virtual Pedido Pedido { get; set; }
         public virtual Producto Producto { get; set; }
+        public virtual Pedido Pedido { get; set; }
     }
 }

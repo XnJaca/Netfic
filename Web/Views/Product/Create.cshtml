@@ -1,0 +1,290 @@
+﻿@model Infraestructure.Models.Producto
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>*@
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Crear Productos</h4>
+                <p>Es hora de crear un producto increible 😀.</p>
+            </div>
+
+            @*<div class="col-lg-6 text-right d-flex flex-column justify-content-center">
+                    <button type="button" class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Save</button>
+                </div>*@
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="font-weight-bolder">Imagen del Producto</h5>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                        @*<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>*@
+                                    </div>
+
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img class="w-100 border-radius-lg shadow-lg mt-3 default-image" src="" alt="" />
+                                        </div>
+                                    </div>
+
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                            <div class="col-12 mt-4">
+                                <div class="d-flex">
+                                    <button id="btnAddImage" class="btn bg-gradient-primary btn-sm mb-0 me-2" type="button">Agregar Imagen</button>
+                                    <button id="btnRemoveImage" class="btn btn-outline-dark btn-sm mb-0" type="button">Quitar Imagen</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 mt-lg-0 mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="font-weight-bolder">Informacion del Producto</h5>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <input class="form-control" type="text" value="Minimal Bar Stool">
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                                @Html.LabelFor(model => model.EstadoProducto, "Estado")
+                                @Html.DropDownList("estadoProducto",
+                                     (SelectList)ViewBag.idEstadoProducto,
+                                     htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <label class="mt-4">Precio</label>
+                                <div class="input-group input-group-alternative mb-4">
+                                    <span class="input-group-text" style="font-weight: bold;">&#8353;</span>
+                                    <input class="form-control" type="number" value="99.00" style="text-align: right;">
+                                </div>
+
+                            </div>
+                            <div class="col-3">
+                                <label class="mt-4">Cantidad</label>
+                                <input class="form-control" type="number" value="50">
+                            </div>
+                            <div class="col-sm-6">
+                                @*<label class="mt-4">Categoria</label><select class="form-control">*@
+                                @Html.LabelFor(model => model.Categoria, "Categoria", htmlAttributes: new { @class = "mt-4" })
+                                @Html.DropDownList("categoria", 
+                                    (SelectList)ViewBag.idCategoria, 
+                                    htmlAttributes: new {@class = "form-control"})   
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label class="mt-4">Descripcion</label>
+                                <p class="form-text text-muted text-xs ms-1 d-inline">
+                                    @* (optional)*@
+                                </p>
+                                <div>
+                                    <textarea class="form-control" type="text" rows="10" cols="50"> </textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+
+
+        <div class="row mt-4">
+            <div class="col-lg-12 text-right d-flex flex-column ">
+                <button type="button" class="btn btn-lg bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Guardar</button>
+            </div>
+        </div>
+
+    </div>
+
+
+    @*<div class="row mt-4">
+        <div class="col-lg-12 text-right d-flex flex-column ">
+            <button type="button" class="btn btn-lg bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Guardar</button>
+        </div>
+    </div>*@
+
+    </div>
+
+
+}
+
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            var carousel = $("#carouselExampleIndicators");
+            var carouselInner = carousel.find(".carousel-inner");
+            var images = carouselInner.find(".carousel-item");
+            var indicators = carousel.find(".carousel-indicators");
+            var removeImageButton = $("#btnRemoveImage");
+
+            // Evento de clic para el botón "Agregar Imagen"
+            $("#btnAddImage").click(function () {
+                try {
+                    var input = $('<input type="file" accept="image/*" style="display:none;">');
+                    input.on("change", function (e) {
+                        try {
+                            var file = e.target.files[0];
+                            var reader = new FileReader();
+                            reader.onload = function (event) {
+                                try {
+                                    var imageUrl = event.target.result;
+                                    var newImage = $(
+                                        '<div class="carousel-item"><img class="w-100 border-radius-lg shadow-lg mt-3" src="' +
+                                        imageUrl +
+                                        '" alt="product_image"></div>'
+                                    );
+
+                                    // Verificar si la imagen actual es la imagen por defecto
+                                    var defaultImage = carouselInner.find(".default-image");
+                                    if (defaultImage.length > 0) {
+                                        // Reemplazar la imagen por defecto con la nueva imagen
+                                        defaultImage.parent().replaceWith(newImage);
+                                    } else {
+                                        // Si no hay imagen por defecto, agregar la nueva imagen al final
+                                        carouselInner.append(newImage);
+                                    }
+
+                                    images.removeClass("active");
+                                    newImage.addClass("active");
+                                    updateIndicators();
+                                } catch (error) {
+                                    console.log("Error al procesar la imagen:", error.message);
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        } catch (error) {
+                            console.log("Error al leer el archivo:", error.message);
+                        }
+                    });
+                    input.click();
+                } catch (error) {
+                    console.log("Error al crear el input de archivo:", error.message);
+                }
+            });
+
+            // Evento de clic para el botón "Quitar Imagen"
+            $("#btnRemoveImage").click(function () {
+                try {
+                    var activeImage = carouselInner.find(".carousel-item.active");
+                    if (activeImage.length > 0) {
+                        var defaultImage = activeImage.children(".default-image");
+                        if (!defaultImage.length > 0) {
+                            activeImage.remove();
+                            images = carouselInner.find(".carousel-item");
+                            if (images.length === 0) {
+                                // Si se eliminan todas las imágenes, agrega la imagen por defecto
+                                defaultImage = $(
+                                    '<img class="w-100 border-radius-lg shadow-lg mt-3 default-image" src="~/Content/img/addimage.png" alt="product_image" />'
+                                );
+                                carouselInner.append(
+                                    $('<div class="carousel-item active"></div>').append(defaultImage)
+                                );
+                            } else {
+                                // Establecer la siguiente imagen como activa si hay más imágenes
+                                var nextImage = activeImage.next(".carousel-item");
+                                if (nextImage.length === 0) {
+                                    nextImage = images.eq(0);
+                                }
+                                nextImage.addClass("active");
+                            }
+                            updateIndicators();
+                        }
+                    }
+                } catch (error) {
+                    console.log("Error al quitar la imagen:", error.message);
+                }
+            });
+
+            // Función para actualizar los indicadores del carousel
+            function updateIndicators() {
+                try {
+                    indicators.empty();
+                    images = carouselInner.find(".carousel-item");
+
+                    var showIndicators = images.length > 0;
+                    var removeImageButton = $("#btnRemoveImage");
+
+                    if (showIndicators) {
+                        carousel.find(".carousel-indicators").show();
+                        removeImageButton.prop("disabled", false);
+                    } else {
+                        carousel.find(".carousel-indicators").hide();
+                        removeImageButton.prop("disabled", true);
+                    }
+
+                    if (images.length > 0) {
+                        images.each(function (index) {
+                            var indicator = $(
+                                '<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="' +
+                                index +
+                                '"></button>'
+                            );
+                            if (showIndicators && index === 0) {
+                                indicator.addClass("active");
+                            }
+                            indicators.append(indicator);
+                        });
+
+                        if (showIndicators) {
+                            carousel.find(".default-image").hide();
+                        }
+                    } else {
+                        var defaultImage = carousel.find(".default-image");
+                        if (defaultImage.length === 0) {
+                            defaultImage = $(
+                                '<img class="w-100 border-radius-lg shadow-lg mt-3 default-image" src="~/Content/img/addimage.png" alt="product_image" />'
+                            );
+                            carouselInner.append(
+                                $('<div class="carousel-item active"></div>').append(defaultImage)
+                            );
+                        } else {
+                            defaultImage.show();
+                        }
+
+                        carousel.carousel("pause");
+                    }
+                } catch (error) {
+                    console.log("Error al actualizar los indicadores:", error.message);
+                }
+            }
+        });
+    </script>
+}

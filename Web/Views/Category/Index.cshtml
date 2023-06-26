@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Infraestructure.Models.Categoria>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="card mb-4">
+            @Html.Partial("Create_Edit_Category", new Infraestructure.Models.Categoria())
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+
+                <h6>Listado de Categorias</h6>
+
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" id="buscarInput" class="form-control" placeholder="Buscar Categorias" onkeyup="buscarCategorias()">
+                    </div>
+                </div>
+
+                @*<a href="@Url.Action("Create")" class="btn btn-primary font-weight-normal">Crear Categoria <i class="fa fa-plus" style="margin-left: 2px"></i> </a>*@
+
+
+
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0" id="categoriasTable">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> @Html.DisplayNameFor(model => model.id)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> @Html.DisplayNameFor(model => model.descripcion)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                                @*<th class="text-secondary opacity-7"></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr data-categoria-id="@item.id">
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.id)</h6>
+                                                @* <p class="text-xs text-secondary mb-0">@Html.DisplayFor(modelItem => item.descripcion)</p>*@
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.descripcion)</p>
+                                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        @*<a href="@Url.Action("Edit", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Usuario">
+                                                <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
+                                            </a>*@
+                                        <a href="#" class="icon-link" data-action="edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Usuario">
+                                            <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Usuario">
+                                            <i class="fa fa-trash" style="color: palevioletred; margin-right: 10px;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Controlador de eventos para el enlace de edición
+            $('a[data-action="edit"]').click(function (e) {
+                e.preventDefault();
+                var categoriaId = $(this).closest('tr').data('categoria-id');
+
+                // Realizar una solicitud AJAX para obtener los detalles de la categoría
+                $.ajax({
+                    url: '@Url.Action("GetCategoryDetails", "Category")',
+                    type: 'GET',
+                    data: { id: categoriaId },
+                    success: function (data) {
+                        // Actualizar los valores de los campos de entrada con los detalles de la categoría
+                        $('#id').val(data.id);
+                        $('#descripcion').val(data.descripcion);
+                    },
+                    error: function () {
+                        alert('Error al obtener los detalles de la categoría');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function buscarCategorias() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("buscarInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("categoriasTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; // Cambia el índice para buscar en una columna diferente
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().includes(filter)) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+            // Mostrar todas las filas si el filtro está vacío
+            if (filter === "") {
+                for (i = 0; i < tr.length; i++) {
+                    tr[i].style.display = "";
+                }
+            }
+        }
+    </script>
+
+}

@@ -29,6 +29,8 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
+
+            ViewBag.currentPage = "Usuarios";
             return View(lista);
         }
 
@@ -117,6 +119,7 @@ namespace Web.Controllers
                 return View();
             }
         }
+
         public ActionResult Edit(int? id)
         {
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();

@@ -1,8 +1,36 @@
-﻿
+﻿@model IEnumerable<Infraestructure.Models.Producto>
+
 @{
     ViewBag.Title = "CustomerIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CustomerIndex</h2>
-
+<div class="d-flex flex-wrap">
+    @foreach (var producto in Model)
+    {
+        <div class="card m-3">
+            <div class="card-header p-0 position-relative z-index-1">
+                <a href="javascript:;" class="d-block">
+                    <img src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(producto.Foto.FirstOrDefault().foto1)" class="img-fluid border-radius-lg" style="max-width: 300px; max-height: 300px;">
+                </a>
+            </div>
+            <div class="card-body pt-2">
+                <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold my-2">@producto.Categoria.descripcion</span>
+                <a href="javascript:;" class="card-title h5 d-block text-darker">
+                    @Html.DisplayFor(model => producto.nombre)
+                </a>
+                <p class="card-description mb-4">
+                    @producto.descripcion
+                </p>
+                <div class="author align-items-center">
+                    <div class="name ps-3">
+                        <div class="stats">
+                            <button class="btn btn-primary">Comprar</button>
+                            <a href="@Url.Action("Details", "Product", new { id = producto.id })" class="btn btn-outline-primary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

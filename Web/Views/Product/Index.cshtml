@@ -1,0 +1,192 @@
+﻿@model IEnumerable<Infraestructure.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .page-link {
+        color: white;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Listado de Productos</h6>
+
+
+                <!--<div class="form-group">
+                    <div class="input-group">-->
+                @*<span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>*@
+                <!--<input type="text" id="buscarInput" class="form-control" placeholder="Buscar productos" onkeyup="buscarProductos()">
+                    </div>
+                </div>-->
+
+                <a href="@Url.Action("Create")" class="btn btn-primary font-weight-normal">Nuevo Producto <i class="fa-sharp fa-solid fa-plus" style="margin-left: 2px;color: #ffffff;"></i></a>
+
+
+
+                @*<input type="text" id="buscarInput" class="dataTable-input" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
+                    <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>*@
+            </div>
+
+            <div class="card-body px-0 pt-0 pb-2">
+
+                <div class="table-responsive p-2 table-container">
+                    <table class="table align-items-start mb-0" id="productosTable">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    @Html.DisplayNameFor(model => model.id)
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    @Html.DisplayNameFor(model => model.nombre)
+                                </th>
+                                @*<th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        @Html.DisplayNameFor(model => model.descripcion)
+                                    </th>*@
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    @Html.DisplayNameFor(model => model.precio)
+                                </th>
+                                <th class="text-uppercase text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    @Html.DisplayNameFor(model => model.cantidad)
+                                </th>
+                                <th class="text-uppercase text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    @Html.DisplayNameFor(model => model.Categoria)
+                                </th>
+                                <th class="text-uppercase text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Vendedor
+                                </th>
+                                <th class="text-uppercase text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Estado
+                                </th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Acciones
+                                </th>
+                                @*<th class="text-secondary opacity-7"></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.id)</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.nombre)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.precio)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.cantidad)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.Categoria.descripcion)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.Usuario.nombre)</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                @*<p class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.EstadoProducto.descripcion)</p>*@
+                                                <span class="badge bg-gradient-success">@Html.DisplayFor(modelItem => item.EstadoProducto.descripcion)</span>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        <a href="@Url.Action("Edit", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Usuario">
+                                            <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
+                                            <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Usuario">
+                                            <i class="fa fa-trash" style="color: palevioletred; margin-right: 10px;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#productosTable').DataTable({
+                pagingType: "simple_numbers",
+                language: {
+                    search: "Buscar:",
+                    searchPlaceholder: "Ingrese su búsqueda",
+                    lengthMenu: "Mostrar _MENU_ registros por página",
+                    zeroRecords: "No se encontraron registros",
+                    info: "Mostrando página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(filtrados de un total de _MAX_ registros)",
+                    paginate: {
+                        previous: '<i class="fas fa-chevron-left"></i>', // Icono de flecha hacia la izquierda
+                        next: '<i class="fas fa-chevron-right"></i>' // Icono de flecha hacia la derecha
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: [2], // Índice de la columna del precio (empezando desde 0)
+                        orderData: [2], // Ordenar según la tercera columna (precio)
+                        orderable: true // Habilitar la opción de ordenar en esta columna
+                    }
+                ],
+                drawCallback: function () {
+                    // Aplicar estilo de color blanco a los elementos de paginación activos
+                    $('.paginate_button.page-item.active a').css('color', 'white');
+                    $('#productosTable_info').css('font-size', '12px').css('margin-left', '2%').css('color','#c1c1c1');
+                    $('#productosTable_length').css('margin-left', '2%');
+                    $('.form-select').css('padding', '.5rem 1.5rem .5rem .75rem');
+                }
+            });
+        });
+    </script>
+}

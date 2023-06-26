@@ -14,7 +14,8 @@ namespace ApplicationCore.Services
     {
         public Telefono GetTelefonoById(int id)
         {
-            throw new NotImplementedException();
+            IRepositoryTelefono repositoryTelefono = new RepositoryTelefono();
+            return repositoryTelefono.GetTelefonoById(id);
         }
 
         public IEnumerable<Telefono> GetTelefonoByIdUser(int userId)

@@ -53,4 +53,39 @@ namespace Infraestructure.Models
         [Required(ErrorMessage = "{0} es un dato requerido")]
         public string tipoTelefono { get; set; }
     }
+
+
+    internal partial class CategoriaMetaData
+    {
+        [Display(Name = "Id")]
+        public int id { get; set; }
+
+        [Display(Name = "Descripcion")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public string descripcion { get; set; }
+    }
+
+    internal partial class ProductoMetaData
+    {
+        [Display(Name = "Id")]
+        public int id { get; set; }
+
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public string nombre { get; set; }
+        [Display(Name = "Descripcion")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public string descripcion { get; set; }
+
+        [Display(Name = "Precio")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public double precio { get; set; }
+
+        [Display(Name = "Cantidad")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public int cantidad { get; set; }
+        [Display(Name = "Vendedor")]
+        [Required(ErrorMessage = "{0} es un dato requerido")]
+        public int vendedorId { get; set; }
+    }
 }

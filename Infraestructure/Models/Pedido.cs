@@ -26,6 +26,7 @@ namespace Infraestructure.Models
         public int estadoPedidoId { get; set; }
         public int metodoPagoId { get; set; }
         public double total { get; set; }
+        public System.DateTime fecha_pedido { get; set; }
     
         public virtual Direccion Direccion { get; set; }
         public virtual EstadoPedido EstadoPedido { get; set; }

@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Infraestructure.Models.Pedido>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var index = 0; // Inicializar el índice
+}
+
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> @Html.DisplayNameFor(model => model.id)</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fecha Pedido</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">@Html.DisplayNameFor(model => model.total)</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">@Html.DisplayNameFor(model => model.EstadoPedido)</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                                <div>
+                                    @if (ViewBag.idFoto != null && ViewBag.idFoto.Count > index)
+                                    {
+                                        var idFotos = (ViewBag.idFoto[index] as IEnumerable<string>)?.ToList();
+
+                                        if (idFotos != null && idFotos.Count > 0)
+                                        {
+                                            <img src="@idFotos.FirstOrDefault()" class="avatar avatar-sm me-3">
+                                        }
+                                        else
+                                        {
+                                            <img src="ruta-de-imagen-predeterminada.jpg" class="avatar avatar-sm me-3">
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="ruta-de-imagen-predeterminada.jpg" class="avatar avatar-sm me-3">
+                                    }
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-xs">@Html.DisplayFor(modelItem => item.id)</h6>
+                                    <p class="text-xs text-secondary mb-0"> @Html.DisplayFor(modelItem => item.PedidoProducto.FirstOrDefault().Producto.nombre)</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0">
+                                @Html.Raw(String.Format("{0:d}", item.fecha_pedido))
+                            </p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.total)</span>
+                            
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="badge bg-gradient-secondary">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
+                                <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    index++; // Incrementa el índice para obtener las fotos del siguiente producto
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!--<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.id)
+        </th>
+        <th>-->
+            @*@Html.DisplayNameFor(model => model.Direccion.provincia)*@<!--\
+            Fecha Pedido
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoPedido.descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Direccion.provincia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>-->

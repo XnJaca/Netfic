@@ -19,8 +19,11 @@ namespace Infraestructure.Models
         public int receptorId { get; set; }
         public string mensaje { get; set; }
         public System.DateTime fechaEnvio { get; set; }
+        public int productoId { get; set; }
+        public string respuesta { get; set; }
     
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

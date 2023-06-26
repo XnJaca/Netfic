@@ -112,133 +112,123 @@ namespace Infraestructure.Repository
         public Usuario Save(Usuario usuario, string[] pTipoUsuarios, string[] pTelefonos)
         {
             int retorno = 0;
-
-            Usuario oUsuario;
+            Usuario oUsuario = null;
 
             using (MyContext ctx = new MyContext())
             {
-
                 ctx.Configuration.LazyLoadingEnabled = false;
-                oUsuario = GetUsuarioById((int)usuario.id);
 
                 IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
-                IRepositoryTelefono _RepositoryTelefono = new RepositoryTelefono();
-
-
 
                 using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-
                     try
                     {
-                        if (oUsuario == null)
+                        if (usuario.id == 0)
                         {
-
+                            // Nuevo usuario
                             if (pTipoUsuarios != null)
                             {
                                 usuario.TipoUsuario = new List<TipoUsuario>();
 
-                                foreach (var tipoUsuario in pTipoUsuarios)
+                                foreach (var tipoUsuarioId in pTipoUsuarios)
                                 {
-                                    var tipoUsuarioAdd = _RepositoryTipoUsuario.GetTipoUsuarioById(int.Parse(tipoUsuario));
-                                    ctx.TipoUsuario.Attach(tipoUsuarioAdd);
-                                    usuario.TipoUsuario.Add(tipoUsuarioAdd);
+                                    var tipoUsuario = _RepositoryTipoUsuario.GetTipoUsuarioById(int.Parse(tipoUsuarioId));
+                                    usuario.TipoUsuario.Add(tipoUsuario);
                                 }
                             }
 
                             ctx.Usuario.Add(usuario);
-                            retorno = ctx.SaveChanges();
+                            ctx.SaveChanges(); // Guardar el usuario para obtener el ID generado
 
-                            // Obtiene el ID del nuevo usuario.
-                            int nuevoUsuarioId = usuario.id;
-
-
+                            // Agregar los registros de Telefono
                             if (pTelefonos != null)
                             {
-                                usuario.Telefono = new List<Telefono>();
-
                                 foreach (var telefonoString in pTelefonos)
                                 {
                                     var phones = telefonoString.Split(',');
                                     foreach (var phone in phones)
                                     {
-                                        var phonePart = phone.Split('-');
-                                        var telefono = new Telefono
+                                        var cleanedPhone = phone.Trim(); // Eliminar espacios en blanco
+                                        var commaIndex = cleanedPhone.IndexOf('('); // Obtener índice de la primera aparición de "("
+                                        if (commaIndex >= 0)
                                         {
-                                            usuarioId = (int)usuario.id,
-                                            numero = Int32.Parse(phonePart[0]),
-                                            tipoTelefono = phonePart[1]
-                                        };
-                                        ctx.Telefono.Attach(telefono);
-                                        usuario.Telefono.Add(telefono);
+                                            var numeroTelefono = cleanedPhone.Substring(0, commaIndex); // Extraer número de teléfono antes del "("
+                                            var tipoTelefono = cleanedPhone.Substring(commaIndex + 1, cleanedPhone.Length - commaIndex - 2); // Extraer palabra entre paréntesis
+
+                                            var telefono = new Telefono
+                                            {
+                                                numero = Int32.Parse(numeroTelefono),
+                                                tipoTelefono = tipoTelefono,
+                                                usuarioId = usuario.id // Asignar el valor de usuarioId
+                                            };
+
+                                            ctx.Telefono.Add(telefono);
+                                        }
                                     }
-
                                 }
+
+                                ctx.SaveChanges(); // Guardar los teléfonos asociados al nuevo usuario
                             }
-
-                            //ctx.Usuario.Add(usuario);
-                            //ctx.Entry(usuario).State = EntityState.Modified;
-                            //retorno = ctx.SaveChanges();
-
-                            //ctx.Usuario.Add(usuario);
-                            //ctx.Entry(usuario).State = EntityState.Modified;
-                            retorno = ctx.SaveChanges();
                         }
                         else
                         {
-                            ctx.Usuario.Add(usuario);
-                            ctx.Entry(usuario).State = EntityState.Modified;
-                            retorno = ctx.SaveChanges();
+                            // Usuario existente
+                            var existingUsuario = ctx.Usuario
+                                .Include(u => u.TipoUsuario)
+                                .Include(u => u.Telefono)
+                                .FirstOrDefault(u => u.id == usuario.id);
 
-                            var tipoUsuariosId = new HashSet<string>(pTipoUsuarios);
-                            var telefonos = new HashSet<string>(pTelefonos);
-
-                            if (pTipoUsuarios != null)
+                            if (existingUsuario != null)
                             {
-                                ctx.Entry(usuario).Collection(p => p.TipoUsuario).Load();
-                                var newTipoUsuarioForUsuario = ctx.TipoUsuario.Where(x => pTipoUsuarios.Contains(x.id.ToString())).ToList();
-                                usuario.TipoUsuario = newTipoUsuarioForUsuario;
-
-                                ctx.Entry(usuario).Collection(p => p.Telefono).Load();
+                                existingUsuario.nombre = usuario.nombre;
+                                existingUsuario.apellidos = usuario.apellidos;
 
                                 // Eliminar los registros existentes de "Telefono" asociados al usuario
-                                usuario.Telefono.Clear();
+                                ctx.Telefono.RemoveRange(existingUsuario.Telefono);
 
-                                foreach (var telefonoString in pTelefonos)
+                                // Asignar nuevos valores de TipoUsuario
+                                existingUsuario.TipoUsuario.Clear();
+                                if (pTipoUsuarios != null)
                                 {
-                                    var phones = telefonoString.Split(',');
-                                    var telefono = new Telefono
+                                    foreach (var tipoUsuarioId in pTipoUsuarios)
                                     {
-                                        usuarioId = oUsuario.id,
-                                        numero = Int32.Parse(phones[0]),
-                                        tipoTelefono = phones[1]
-                                    };
-                                    usuario.Telefono.Add(telefono);
-                                    ctx.Telefono.Add(telefono);
-                                    //foreach (var phone in phones)
-                                    //{
-                                    //    var phonePart = phone.Split('-');
-                                    //    var telefono = new Telefono
-                                    //    {
-                                    //        usuarioId = oUsuario.id,
-                                    //        numero = Int32.Parse(phonePart[0]),
-                                    //        tipoTelefono = phonePart[1]
-                                    //    };
-                                    //    usuario.Telefono.Add(telefono);
-                                    //    ctx.Telefono.Add(telefono);
-                                    //}
+                                        var tipoUsuario = _RepositoryTipoUsuario.GetTipoUsuarioById(int.Parse(tipoUsuarioId));
+                                        existingUsuario.TipoUsuario.Add(tipoUsuario);
+                                    }
                                 }
 
-                                ctx.Entry(usuario).State = EntityState.Modified;
+                                // Agregar nuevos registros de Telefono
+                                if (pTelefonos != null)
+                                {
+                                    foreach (var telefonoString in pTelefonos)
+                                    {
+                                        var phones = telefonoString.Split(',');
+                                        foreach (var phone in phones)
+                                        {
+                                            var cleanedPhone = phone.Trim(); // Eliminar espacios en blanco
+                                            var commaIndex = cleanedPhone.IndexOf('('); // Obtener índice de la primera aparición de "("
+                                            if (commaIndex >= 0)
+                                            {
+                                                var numeroTelefono = cleanedPhone.Substring(0, commaIndex); // Extraer número de teléfono antes del "("
+                                                var tipoTelefono = cleanedPhone.Substring(commaIndex + 1, cleanedPhone.Length - commaIndex - 2); // Extraer palabra entre paréntesis
+
+                                                var telefono = new Telefono
+                                                {
+                                                    numero = Int32.Parse(numeroTelefono),
+                                                    tipoTelefono = tipoTelefono,
+                                                    usuarioId = usuario.id // Asignar el valor de usuarioId
+                                                };
+
+                                                ctx.Telefono.Add(telefono);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ctx.SaveChanges();
                                 retorno = ctx.SaveChanges();
                             }
-
-                            //if (pTelefonos != null)
-                            //{
-                                
-                            //}
-                            //retorno = ctx.SaveChanges();
-
                         }
 
                         dbContextTransaction.Commit();
@@ -248,16 +238,24 @@ namespace Infraestructure.Repository
                             oUsuario = GetUsuarioById((int)usuario.id);
                         }
 
-
-                        //dbCon
                     }
-                    catch (Exception ex) { }
-
+                    catch (DbUpdateException dbEx)
+                    {
+                        string mensaje = "";
+                        Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                        throw new Exception(mensaje);
+                    }
+                    catch (Exception ex)
+                    {
+                        string mensaje = "";
+                        Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                        throw;
+                    }
                 }
-
             }
             return oUsuario;
         }
+
 
     }
 }

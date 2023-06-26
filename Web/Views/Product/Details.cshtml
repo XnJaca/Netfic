@@ -1,0 +1,221 @@
+﻿<style>
+    .messages {
+        max-height: 300px;
+        overflow-y: scroll;
+        padding: 10px;
+    }
+
+    .message {
+        margin-bottom: 10px;
+    }
+
+        .message p {
+            margin: 0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+    .user-message {
+        background-color: #f2f2f2;
+    }
+
+    .response-message {
+        background-color: #d4e1ff;
+    }
+
+    .message strong {
+        font-weight: bold;
+    }
+
+    .message-time {
+        font-size: 12px;
+        color: #999;
+        margin-top: 5px;
+    }
+</style>
+@model Infraestructure.Models.Producto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-4">Detalles del producto</h5>
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-6 text-center">
+
+                            <img class="w-100 border-radius-lg shadow-lg mx-auto" src="@ViewBag.idFoto[0]" alt="foto">
+
+                            <div class="my-gallery d-flex mt-4 pt-2" itemscope="" itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+                                @foreach (var image in ViewBag.idFoto)
+                                {
+                                    <figure itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+                                        <a href="@image" itemprop="contentUrl" data-size="500x600">
+                                            <img class="w-75 min-height-100 max-height-100 border-radius-lg shadow" src="@image" alt="Image description">
+                                        </a>
+                                    </figure>
+                                }
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 mx-auto">
+                            <h3 class="mt-lg-0 mt-4">@Html.DisplayFor(model => model.nombre)</h3>
+                            <div class="rating">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                            </div>
+                            <br>
+                            <h6 class="mb-0 mt-3">Vendedor: @Html.DisplayFor(model => model.Usuario.nombre)</h6>
+                            <h6 class="mb-0 mt-3">Precio</h6>
+                            <h5>₡ @Html.DisplayFor(model => model.precio)</h5>
+                            <span class="badge bg-gradient-faded-@(Model.cantidad < 1 ? "danger" : "success")">@(Model.cantidad < 1 ? "AGOTADO" : "EN INVENTARIO")</span>
+                            <br>
+                            <label class="mt-4">Descripcion</label>
+                            <p>@Html.DisplayFor(model => model.descripcion)</p>
+                            @*<ul>
+            <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+            <li>Memory swivel seat returns to original seat position</li>
+            <li>Comfortable integrated layered chair seat cushion design</li>
+            <li>Fully assembled! No assembly required</li>
+        </ul>*@
+                            <div class="row mt-4">
+                                <div class="col-lg-5 mt-lg-0 mt-2">
+                                    <label>Categoria</label><br />
+                                    <span class="badge bg-gradient-secondary">@Html.DisplayFor(model => model.Categoria.descripcion)</span>
+                                </div>
+                                <div class="col-lg-5 mt-lg-0 mt-2">
+                                    <label>Estado</label><br />
+                                    <span class="badge bg-gradient-faded-primary">@Html.DisplayFor(model => model.EstadoProducto.descripcion)</span>
+
+                                </div>
+                                <div class="col-lg-2">
+                                    <label for="example-number-input" class="form-control-label">Cantidad</label>
+                                    <input class="form-control" type="number" value="0" max="@Model.cantidad" min="0" id="example-number-input">
+
+                                </div>
+                            </div>
+                            <div class="row mt-4 justify-content-end">
+                                <div class="col-lg-5 align-items-end">
+                                    <button class="btn bg-gradient-primary mb-0 mt-lg-auto w-100" type="button" name="button">Añadir al Carrito</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Espacio para enviar y visualizar mensajes -->
+    <div class="row mt-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-4">Enviar mensaje</h5>
+                    <form>
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-4">Mensajes</h5>
+                    <div class="messages">
+                        @foreach (var chat in ViewBag.chats)
+                        {
+                            <div class="message">
+                                <p class="user-message"><strong>@chat.Usuario.nombre:</strong> @chat.mensaje</p>
+                                <p class="message-time">Hora: @chat.fechaEnvio.ToString("HH:mm")</p>
+                                @if (!string.IsNullOrEmpty(chat.respuesta))
+                                {
+                                    <p class="response-message"><strong>@chat.Usuario1.nombre:</strong> @chat.respuesta</p>
+                                    <p class="message-time">Hora: @chat.fechaEnvio.ToString("HH:mm")</p>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <!--<div class="col-lg-8 mt-lg-0 mt-4">
+        <div class="card">
+            <div class="card-body">-->
+    @*<h5 class="font-weight-bolder">Informacion del Producto</h5>*@
+    <!--<div class="row">
+        <div class="col-12 col-sm-6">
+            <h3 class="mt-lg-0 mt-4">@Html.DisplayFor(model => model.nombre)</h3>
+        </div>
+        <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+            @Html.LabelFor(model => model.EstadoProducto, "Estado")
+            @Html.DropDownList("estadoProducto",
+                 (SelectList)ViewBag.idEstadoProducto,
+                 htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <label class="mt-4">Precio</label>
+            <div class="input-group input-group-alternative mb-4">
+                <span class="input-group-text" style="font-weight: bold;">&#8353;</span>
+                <input class="form-control" type="number" value="99.00" style="text-align: right;">
+            </div>
+
+        </div>
+        <div class="col-3">
+            <label class="mt-4">Cantidad</label>
+            <input class="form-control" type="number" value="50">
+        </div>
+        <div class="col-sm-6">-->
+    @*<label class="mt-4">Categoria</label><select class="form-control">*@
+    <!--@Html.LabelFor(model => model.Categoria, "Categoria", htmlAttributes: new { @class = "mt-4" })
+            @Html.DropDownList("categoria",
+                (SelectList)ViewBag.idCategoria,
+                htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <label class="mt-4">Descripcion</label>
+            <p class="form-text text-muted text-xs ms-1 d-inline">-->
+    @* (optional)*@
+    <!--</p>
+                        <div>
+                            <textarea class="form-control" type="text" rows="10" cols="50"> </textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+</div>

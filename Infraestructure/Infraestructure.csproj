@@ -59,6 +59,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IRepositoryCategoria.cs" />
+    <Compile Include="Interfaces\IRepositoryChat.cs" />
+    <Compile Include="Interfaces\IRepositoryEstadoProducto.cs" />
+    <Compile Include="Interfaces\IRepositoryFoto.cs" />
+    <Compile Include="Interfaces\IRepositoryPedido.cs" />
+    <Compile Include="Interfaces\IRepositoryPedidoProducto.cs" />
+    <Compile Include="Interfaces\IRepositoryProducto.cs" />
     <Compile Include="Interfaces\IRepositoryTelefono.cs" />
     <Compile Include="Interfaces\IRepositoryUsuario.cs" />
     <Compile Include="Interfaces\IRepositoryTipoUsuario.cs" />
@@ -115,6 +122,9 @@
     <Compile Include="Models\Producto.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>MyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Telefono.cs">
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
@@ -125,6 +135,13 @@
       <DependentUpon>MyModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\RepositoryCategoria.cs" />
+    <Compile Include="Repository\RepositoryChat.cs" />
+    <Compile Include="Repository\RepositoryEstadoProducto.cs" />
+    <Compile Include="Repository\RepositoryFoto.cs" />
+    <Compile Include="Repository\RepositoryPedido.cs" />
+    <Compile Include="Repository\RepositoryPedidoProducto.cs" />
+    <Compile Include="Repository\RepositoryProducto.cs" />
     <Compile Include="Repository\RepositoryTelefono.cs" />
     <Compile Include="Repository\RepositoryTipoUsuario.cs" />
     <Compile Include="Repository\RepositoryUsuario.cs" />

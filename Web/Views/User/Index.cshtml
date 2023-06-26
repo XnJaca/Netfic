@@ -24,14 +24,10 @@
 
 
                 @*<input type="text" id="buscarInput" class="dataTable-input" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
-        <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>*@
+                    <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>*@
             </div>
 
             <div class="card-body px-0 pt-0 pb-2">
-                @*<div class="input-group mb-3">
-                    <input type="text" id="buscarInput" class="form-control" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
-                    <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>
-                </div>*@
 
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0" id="usuariosTable">
@@ -64,7 +60,7 @@
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.email)</p>
-                                        <p class="text-xs text-secondary mb-0">Organization</p>
+                                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
                                     </td>
                                     <td>
                                         @foreach (var tel in item.Telefono)

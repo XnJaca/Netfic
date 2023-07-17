@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ApplicationCore.Services
 {
@@ -29,9 +30,16 @@ namespace ApplicationCore.Services
             return repositoryProducto.GetProductos();
         }
 
-        public Producto Save(Producto producto)
+        public IEnumerable<Producto> GetProductosByVendedor(int vendedorId)
         {
-            throw new NotImplementedException();
+            IRepositoryProducto repositoryProducto = new RepositoryProducto();
+            return repositoryProducto.GetProductosByVendedor(vendedorId);
+        }
+
+        public Producto Save(Producto producto, List<HttpPostedFileBase> imageFiles)
+        {
+            IRepositoryProducto repositoryProducto = new RepositoryProducto();
+            return repositoryProducto.Save(producto, imageFiles);
         }
     }
 }

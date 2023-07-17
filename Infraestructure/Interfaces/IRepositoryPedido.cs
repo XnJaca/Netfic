@@ -14,5 +14,8 @@ namespace Infraestructure.Interfaces
         Pedido GetPedidoById(int idPedido);
 
         IEnumerable<Pedido> GetPedidosByUser(int userId);
+
+        IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId);
+
     }
 }

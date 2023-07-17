@@ -14,5 +14,7 @@ namespace ApplicationCore.Interfaces
         IEnumerable<Pedido> GetPedidos();
 
         IEnumerable<Pedido> GetPedidosByUser(int userId);
+
+        IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId);
     }
 }

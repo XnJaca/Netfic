@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ApplicationCore.Interfaces
 {
@@ -14,7 +15,9 @@ namespace ApplicationCore.Interfaces
 
         Producto GetProductoById(int id);
 
-        Producto Save(Producto producto);
+        IEnumerable<Producto> GetProductosByVendedor(int vendedorId);
+
+        Producto Save(Producto producto, List<HttpPostedFileBase> imageFiles);
 
         Boolean Delete(int id);
     }

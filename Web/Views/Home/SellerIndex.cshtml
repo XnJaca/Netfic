@@ -1,10 +1,35 @@
 ﻿@model IEnumerable<Infraestructure.Models.Pedido>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "IndexSeller";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-capitalize font-weight-bold">Productos</p>
+                            <h5 class="font-weight-light mb-0">
+                                Gestione mis productos.
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <a href="@Url.Action("IndexSeller", "Product")">
+                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="ni ni-shop text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card">
     <div class="table-responsive">
@@ -37,69 +62,19 @@
                         </td>
                         <td class="align-middle text-center text-sm">
                             <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.total)</span>
-                            
+
                         </td>
                         <td class="align-middle text-center">
                             <span class="badge bg-gradient-secondary">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
                         </td>
                         <td class="align-middle text-center">
-                            <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
+                            <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Pedido">
                                 <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
                             </a>
                         </td>
                     </tr>
                 }
-
-
             </tbody>
         </table>
     </div>
 </div>
-
-
-<!--<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id)
-        </th>
-        <th>-->
-            @*@Html.DisplayNameFor(model => model.Direccion.provincia)*@<!--\
-            Fecha Pedido
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.total)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoPedido.descripcion)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direccion.provincia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
-
-</table>-->

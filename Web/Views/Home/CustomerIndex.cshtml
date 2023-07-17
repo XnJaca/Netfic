@@ -8,7 +8,7 @@
 <div class="d-flex flex-wrap">
     @foreach (var producto in Model)
     {
-        <div class="card m-3">
+        <div class="card m-3 w-20">
             <div class="card-header p-0 position-relative z-index-1">
                 <a href="javascript:;" class="d-block">
                     <img src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(producto.Foto.FirstOrDefault().foto1)" class="img-fluid border-radius-lg" style="max-width: 300px; max-height: 300px;">
@@ -20,10 +20,10 @@
                     @Html.DisplayFor(model => producto.nombre)
                 </a>
                 <p class="card-description mb-4">
-                    @producto.descripcion
+                    @*@producto.descripcion*@
                 </p>
                 <div class="author align-items-center">
-                    <div class="name ps-3">
+                    <div class="name ps-2">
                         <div class="stats">
                             <button class="btn btn-primary">Comprar</button>
                             <a href="@Url.Action("Details", "Product", new { id = producto.id })" class="btn btn-outline-primary">Ver detalles</a>

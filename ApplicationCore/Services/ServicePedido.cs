@@ -29,5 +29,11 @@ namespace ApplicationCore.Services
             IRepositoryPedido repositoryPedido = new RepositoryPedido();
             return repositoryPedido.GetPedidosByUser(userId);
         }
+
+        public IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId)
+        {
+            IRepositoryPedido repositoryPedido = new RepositoryPedido();
+            return repositoryPedido.GetPedidosByVendedor(vendedorId);
+        }
     }
 }

@@ -20,6 +20,8 @@ namespace Web
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/sweetalert").Include("~/Scripts/sweetalert.min.js"));
+
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                 "~/Scripts/js/core/popper.min.js",
                  "~/Scripts/js/core/bootstrap.min.js",
@@ -33,7 +35,8 @@ namespace Web
                        "~/Content/css/nucleo-svg.css",
                       "~/Content/css/soft-ui-dashboard.css",
                       "~/Content/css/soft-ui-dashboard.css.map",
-                      "~/Content/css/soft-ui-dashboard.min.css"
+                      "~/Content/css/soft-ui-dashboard.min.css",
+                      "~/Content/sweetalert.css"
                       ));
         }
     }

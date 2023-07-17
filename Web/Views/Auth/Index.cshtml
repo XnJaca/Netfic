@@ -33,70 +33,73 @@
                             <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Ingresar</button>
                         </div>
 
-                        <p class="text-sm mt-3 mb-0">¿Aun no tiene una cuenta? <a href="javascript:;" class="text-dark font-weight-bolder">Registrarse</a></p>
+                        <p class="text-sm mt-3 mb-0">¿Aun no tiene una cuenta? <a href="@Url.Action("SignUp", "Auth")" class="text-dark font-weight-bolder">Registrarse</a></p>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
 
-<script>
+        $(document).ready(function () {
 
-    $(document).ready(function () {
+            setTimeout(function () {
+                $(".custom-alert").fadeOut();
+            }, 5000);
 
-        setTimeout(function () {
-            $(".custom-alert").fadeOut();
-        }, 5000);
+            // Ocultar el mensaje de TempData cuando el usuario comienza a escribir en un campo de texto
+            $("input[name='username'], input[name='password']").on("input", function () {
+                $(".custom-alert").fadeOut();
+            });
 
-        // Ocultar el mensaje de TempData cuando el usuario comienza a escribir en un campo de texto
-        $("input[name='username'], input[name='password']").on("input", function () {
-            $(".custom-alert").fadeOut();
+
+            $("form").submit(function (event) {
+                // Detener el envío del formulario
+                event.preventDefault();
+
+                // Obtener los valores de los campos de entrada
+                var email = $("input[name='username']").val();
+                var password = $("input[name='password']").val();
+
+
+                // Limpiar los mensajes de error previos
+                $(".text-danger").text("");
+
+                // Realizar validaciones
+                if (email == undefined && password == undefined || email.trim() === "" && password.trim() === "") {
+                    $("#email-error").text("Por favor, ingrese un correo electrónico.");
+                    $("#password-error").text("Por favor, ingrese una contraseña.");
+                    return;
+                }
+
+                if (email.trim() === "") {
+                    $("#email-error").text("Por favor, ingrese un correo electrónico.");
+                    return;
+                }
+                if (!validateEmail(email)) {
+                    $("#email-error").text("Por favor, ingrese un formato de correo electrónico válido.");
+                    return;
+                }
+
+                if (password.trim() === "") {
+                    $("#password-error").text("Por favor, ingrese una contraseña.");
+                    return;
+                }
+
+                // Si pasa todas las validaciones, enviar el formulario
+                $("form").unbind("submit").submit();
+            });
+
+            // Función para validar el formato de correo electrónico
+            function validateEmail(email) {
+                var re = new RegExp('^[^\\s@@]+@@[^\\s@@]+\\.[^\\s@@]+$');
+                return re.test(email);
+            }
         });
 
+    </script>
 
-        $("form").submit(function (event) {
-            // Detener el envío del formulario
-            event.preventDefault();
-
-            // Obtener los valores de los campos de entrada
-            var email = $("input[name='username']").val();
-            var password = $("input[name='password']").val();
-
-
-            // Limpiar los mensajes de error previos
-            $(".text-danger").text("");
-
-            // Realizar validaciones
-            if (email == undefined && password == undefined || email.trim() === "" && password.trim() === "") {
-                $("#email-error").text("Por favor, ingrese un correo electrónico.");
-                $("#password-error").text("Por favor, ingrese una contraseña.");
-                return;
-            }
-
-            if (email.trim() === "") {
-                $("#email-error").text("Por favor, ingrese un correo electrónico.");
-                return;
-            }
-            if (!validateEmail(email)) {
-                $("#email-error").text("Por favor, ingrese un formato de correo electrónico válido.");
-                return;
-            }
-
-            if (password.trim() === "") {
-                $("#password-error").text("Por favor, ingrese una contraseña.");
-                return;
-            }
-
-            // Si pasa todas las validaciones, enviar el formulario
-            $("form").unbind("submit").submit();
-        });
-
-        // Función para validar el formato de correo electrónico
-        function validateEmail(email) {
-            var re = new RegExp('^[^\\s@@]+@@[^\\s@@]+\\.[^\\s@@]+$');
-            return re.test(email);
-        }
-    });
-
-</script>
+}

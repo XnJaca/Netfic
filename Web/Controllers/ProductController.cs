@@ -4,10 +4,12 @@ using Infraestructure.Models;
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace Web.Controllers
 {
@@ -35,6 +37,29 @@ namespace Web.Controllers
             return View(lista);
         }
 
+        public ActionResult IndexSeller()
+        {
+
+            Usuario oUsuario = Session["Usuario"] as Usuario;
+            IEnumerable<Producto> lista;
+
+            try
+            {
+                IServiceProducto _ServiceProducto = new ServiceProducto();
+
+
+                lista = _ServiceProducto.GetProductosByVendedor(oUsuario.id);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+            ViewBag.currentPage = "Productos";
+            return View(lista);
+        }
 
         private SelectList CategoriaList(int categoriaID = 0)
         {
@@ -127,13 +152,40 @@ namespace Web.Controllers
             return View();
         }
 
-        // POST: Product/Create
+        // POST: Product/Create - Update
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Save(Producto pProducto, List<HttpPostedFileBase> ImageFiles, Categoria categoria, EstadoProducto estadoProducto)
         {
+            MemoryStream target = new MemoryStream();
+            IServiceProducto serviceProducto = new ServiceProducto();
+            Usuario oUsuario = Session["Usuario"] as Usuario;
             try
             {
-                // TODO: Add insert logic here
+                if (pProducto.Foto == null)
+                {
+                    if (ImageFiles != null && ImageFiles.Count > 0)
+                    {
+                        foreach (var imageFile in ImageFiles)
+                        {
+                            if (imageFile != null)
+                            {
+                                // Procesar el archivo de imagen y guardarlo en la entidad Producto
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    imageFile.InputStream.CopyTo(memoryStream);
+                                    byte[] imageBytes = memoryStream.ToArray();
+                                    // Guardar los bytes de la imagen en la entidad Producto
+                                    // Asegúrate de tener una propiedad en la entidad Producto para almacenar la imagen
+                                    pProducto.Foto.Add(new Foto { foto1 = imageBytes });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                pProducto.vendedorId = oUsuario.id;
+                // Guardar el Producto en la base de datos
+                serviceProducto.Save(pProducto, ImageFiles);
 
                 return RedirectToAction("Index");
             }

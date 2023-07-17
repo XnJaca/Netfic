@@ -23,19 +23,6 @@ namespace Web.Controllers
                 IServicePedido servicePedido = new ServicePedido();
                 Usuario oUsuario = Session["Usuario"] as Usuario;
                 lista = servicePedido.GetPedidosByUser(oUsuario.id);
-
-                List<IEnumerable<string>> idFotosList = new List<IEnumerable<string>>();
-
-                foreach (var pedido in lista)
-                {
-                    int idProducto = pedido.PedidoProducto.FirstOrDefault().Producto.id; // Obtén el idProducto de cada pedido (ajusta esto según tu modelo de datos)
-
-                    IEnumerable<string> idFotos = FotoProductoList(idProducto); // Obtén las fotos correspondientes al idProducto
-
-                    idFotosList.Add(idFotos); // Agrega las fotos a la lista
-                }
-
-                ViewBag.idFoto = idFotosList;
             }
             catch (Exception ex)
             {
@@ -43,7 +30,7 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
-            ViewBag.currentPage = "Productos";
+            ViewBag.currentPage = "Pedidos";
             return View(lista);
         }
 
@@ -56,6 +43,8 @@ namespace Web.Controllers
             {
                 IServicePedido servicePedido = new ServicePedido();
                 pedido = servicePedido.GetPedidoById(id);
+                ViewBag.idFoto = FotoProductoList(pedido.PedidoProducto.Select(pp => pp.Producto.id));
+                ViewBag.currentPage = "Producto";
             }
             catch (Exception ex)
             {
@@ -63,24 +52,26 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
-            ViewBag.idFoto = FotoProductoList(pedido.PedidoProducto.FirstOrDefault().Producto.id);
-            ViewBag.currentPage = "Producto";
+
             return View(pedido);
         }
 
 
-        private IEnumerable<string> FotoProductoList(int idProducto)
+        private IEnumerable<string> FotoProductoList(IEnumerable<int> idProductos)
         {
             IServiceFoto serviceFoto = new ServiceFoto();
-            IEnumerable<Foto> lista = serviceFoto.GetFotosByProducto(idProducto);
-
             List<string> imagenes = new List<string>();
 
-            foreach (var foto in lista)
+            foreach (int idProducto in idProductos)
             {
-                string base64String = Convert.ToBase64String(foto.foto1);
-                string imageUrl = string.Format("data:image/jpeg;base64,{0}", base64String);
-                imagenes.Add(imageUrl);
+                IEnumerable<Foto> lista = serviceFoto.GetFotosByProducto(idProducto);
+
+                foreach (var foto in lista)
+                {
+                    string base64String = Convert.ToBase64String(foto.foto1);
+                    string imageUrl = string.Format("data:image/jpeg;base64,{0}", base64String);
+                    imagenes.Add(imageUrl);
+                }
             }
 
             return imagenes;

@@ -8,31 +8,42 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Web.Utils;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(int? logUser)
+        public ActionResult Index()
         {
-            if (Session["Usuario"] == null)
-            {
-                // Redireccionar a la página de inicio si el usuario no está autenticado
-                return RedirectToAction("Index", "Auth");
-            }
+            ViewBag.currentPage = "Dashboard";
 
-            Usuario oUsuario = Session["Usuario"] as Usuario;
 
-            if (oUsuario.TipoUsuario.FirstOrDefault().id == 1)
+            if (Util.VerifyAuthentication(this))
             {
-                ViewBag.currentPage = "Dashboard";
-                return View();
+                Usuario oUsuario = Session["Usuario"] as Usuario;
+
+                if (oUsuario.TipoUsuario.FirstOrDefault().id == 1)
+                {
+
+                    return View();
+                }
+                else if (oUsuario.TipoUsuario.FirstOrDefault().id == 2)
+                {
+
+                    return RedirectToAction("CustomerIndex", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("SellerIndex", "Home");
+                }
             }
             else
             {
-                ViewBag.currentPage = "Dashboard";
-                return RedirectToAction("CustomerIndex", "Home");
+                return RedirectToAction("Index", "Auth");
             }
+
+
         }
 
         public ActionResult CustomerIndex()
@@ -52,10 +63,34 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
-            ViewBag.currentPage = "Productos";
+            ViewBag.currentPage = "Dashboard";
+            return View(lista);
+        }
+
+
+        public ActionResult SellerIndex()
+        {
+
+            IEnumerable<Pedido> lista;
+
+
+            try
+            {
+                IServicePedido _ServicePedido = new ServicePedido();
+                Usuario oUsuario = Session["Usuario"] as Usuario;
+                lista = _ServicePedido.GetPedidosByVendedor(oUsuario.id);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+            ViewBag.currentPage = "Dashboard";
             return View(lista);
 
         }
+
 
         public ActionResult About()
         {

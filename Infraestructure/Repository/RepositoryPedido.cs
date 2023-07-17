@@ -117,5 +117,46 @@ namespace Infraestructure.Repository
                 throw;
             }
         }
+
+        public IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId)
+        {
+            IEnumerable<Pedido> oPedido;
+
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+
+                    oPedido = ctx.Pedido
+                        .Include(p => p.Direccion)
+                        .Include(p => p.EstadoPedido)
+                        .Include(p => p.MetodoPago)
+                        .Include(p => p.Usuario)
+                        .Include(p => p.PedidoProducto)
+                        .Include("PedidoProducto.Producto")
+                        .Include("PedidoProducto.Producto.Categoria")
+                        .Where(p => p.PedidoProducto.Any(pv => pv.Producto.vendedorId == vendedorId))
+                        .ToList();
+
+                }
+
+
+                return oPedido;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
     }
 }

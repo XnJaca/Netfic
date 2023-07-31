@@ -18,7 +18,69 @@ namespace Infraestructure.Repository
     {
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    
+
+                    using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Obtener el producto a eliminar
+                            Producto producto = ctx.Producto.Find(id);
+
+                            if (producto != null)
+                            {
+                                // Consultar las fotos asociadas al producto y eliminarlas
+                                var fotosAsociadas = ctx.Foto.Where(f => f.productoId == id).ToList();
+                                if (fotosAsociadas.Count > 0)
+                                {
+                                    ctx.Foto.RemoveRange(fotosAsociadas);
+                                }
+
+                                // Eliminar el producto
+                                ctx.Producto.Remove(producto);
+
+                                // Guardar los cambios en la base de datos
+                                int filasAfectadas = ctx.SaveChanges();
+
+                                // Confirmar la transacción
+                                dbContextTransaction.Commit();
+
+                                // Devuelve true si al menos una fila fue afectada
+                                return filasAfectadas > 0;
+                            }
+                            else
+                            {
+                                // El producto no existe
+                                return false;
+                            }
+                        }
+                        catch (DbUpdateException dbEx)
+                        {
+                            string mensaje = "";
+                            Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                            throw new Exception(mensaje);
+                        }
+                        catch (Exception ex)
+                        {
+                            string mensaje = "";
+                            Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar el error si ocurre al abrir la conexión con la base de datos o al crear la transacción
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
         }
 
         public Producto GetProductoById(int id)
@@ -154,7 +216,11 @@ namespace Infraestructure.Repository
                                 existingProducto.estadoId = producto.estadoId;
 
                                 // Eliminar las fotos existentes asociadas al producto
-                                ctx.Foto.RemoveRange(existingProducto.Foto);
+                                if (imageFiles[0] != null)
+                                {
+                                    ctx.Foto.RemoveRange(existingProducto.Foto);
+                                }
+
                             }
                             else
                             {

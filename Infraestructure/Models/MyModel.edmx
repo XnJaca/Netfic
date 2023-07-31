@@ -19,7 +19,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="emisorId" Type="int" Nullable="false" />
           <Property Name="receptorId" Type="int" Nullable="false" />
-          <Property Name="mensaje" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="mensaje" Type="varchar" MaxLength="200" />
           <Property Name="fechaEnvio" Type="datetime" Nullable="false" />
           <Property Name="productoId" Type="int" Nullable="false" />
           <Property Name="respuesta" Type="varchar" MaxLength="200" />
@@ -112,7 +112,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar(max)" Nullable="false" />
           <Property Name="precio" Type="float" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
           <Property Name="categoriaId" Type="int" Nullable="false" />
@@ -162,7 +162,7 @@
           <Property Name="apellidos" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="estado" Type="int" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Chat_Producto">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
@@ -538,13 +538,13 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="emisorId" Type="Int32" Nullable="false" />
           <Property Name="receptorId" Type="Int32" Nullable="false" />
-          <Property Name="mensaje" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mensaje" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="fechaEnvio" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Chat_Usuario" FromRole="Chat" ToRole="Usuario" />
-          <NavigationProperty Name="Usuario1" Relationship="Self.FK_Chat_Usuario1" FromRole="Chat" ToRole="Usuario" />
           <Property Name="productoId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="netficModel.FK_Chat_Producto" FromRole="Chat" ToRole="Producto" />
           <Property Name="respuesta" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Chat_Usuario" FromRole="Chat" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="netficModel.FK_Chat_Usuario1" FromRole="Chat" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Direccion">
           <Key>
@@ -557,8 +557,8 @@
           <Property Name="distrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="direccion1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="codigoPostal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Direccion_Usuario" FromRole="Direccion" ToRole="Usuario" />
           <NavigationProperty Name="Pedido" Relationship="netficModel.FK_Pedido_Direccion" FromRole="Direccion" ToRole="Pedido" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Direccion_Usuario" FromRole="Direccion" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="EstadoPedido">
           <Key>
@@ -593,7 +593,7 @@
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <Property Name="calificacion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_EvaluacionVendedor_Usuario" FromRole="EvaluacionVendedor" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_EvaluacionVendedor_Usuario" FromRole="EvaluacionVendedor" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Foto">
           <Key>
@@ -624,7 +624,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="precio" Type="Double" Nullable="false" />
           <Property Name="cantidad" Type="Int32" Nullable="false" />
           <Property Name="categoriaId" Type="Int32" Nullable="false" />
@@ -635,8 +635,8 @@
           <NavigationProperty Name="EvaluacionProducto" Relationship="Self.FK_EvaluacionProducto_Producto" FromRole="Producto" ToRole="EvaluacionProducto" />
           <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_Producto" FromRole="Producto" ToRole="Foto" />
           <NavigationProperty Name="PedidoProducto" Relationship="Self.FK_PedidoProducto_Producto" FromRole="Producto" ToRole="PedidoProducto" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Producto_Usuario" FromRole="Producto" ToRole="Usuario" />
           <NavigationProperty Name="Chat" Relationship="netficModel.FK_Chat_Producto" FromRole="Producto" ToRole="Chat" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Producto_Usuario" FromRole="Producto" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -646,7 +646,7 @@
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <Property Name="numero" Type="Int32" Nullable="false" />
           <Property Name="tipoTelefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Telefono_Usuario" FromRole="Telefono" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Telefono_Usuario" FromRole="Telefono" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="TipoUsuario">
           <Key>
@@ -654,27 +654,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.TipoUsuarioxUsuario" FromRole="TipoUsuario" ToRole="Usuario" />
-        </EntityType>
-        <EntityType Name="Usuario">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="apellidos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estado" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Chat" Relationship="Self.FK_Chat_Usuario" FromRole="Usuario" ToRole="Chat" />
-          <NavigationProperty Name="Chat1" Relationship="Self.FK_Chat_Usuario1" FromRole="Usuario" ToRole="Chat" />
-          <NavigationProperty Name="Direccion" Relationship="Self.FK_Direccion_Usuario" FromRole="Usuario" ToRole="Direccion" />
-          <NavigationProperty Name="EvaluacionVendedor" Relationship="Self.FK_EvaluacionVendedor_Usuario" FromRole="Usuario" ToRole="EvaluacionVendedor" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Usuario" FromRole="Usuario" ToRole="Producto" />
-          <NavigationProperty Name="Telefono" Relationship="Self.FK_Telefono_Usuario" FromRole="Usuario" ToRole="Telefono" />
-          <NavigationProperty Name="TipoUsuario" Relationship="Self.TipoUsuarioxUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
-          <NavigationProperty Name="MetodoPago" Relationship="netficModel.FK_MetodoPago_Usuario" FromRole="Usuario" ToRole="MetodoPago" />
-          <NavigationProperty Name="Pedido" Relationship="netficModel.FK_Pedido_Usuario" FromRole="Usuario" ToRole="Pedido" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.TipoUsuarioxUsuario" FromRole="TipoUsuario" ToRole="Usuario" />
         </EntityType>
         <Association Name="FK_Producto_Categoria">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
@@ -685,42 +665,6 @@
             </Principal>
             <Dependent Role="Producto">
               <PropertyRef Name="categoriaId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Chat_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Chat">
-              <PropertyRef Name="emisorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Chat_Usuario1">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Chat" Type="Self.Chat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Chat">
-              <PropertyRef Name="receptorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Direccion_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Direccion">
-              <PropertyRef Name="idUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -760,18 +704,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EvaluacionVendedor_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="EvaluacionVendedor" Type="Self.EvaluacionVendedor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="EvaluacionVendedor">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Foto_Producto">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
@@ -796,34 +728,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Producto_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Producto">
-              <PropertyRef Name="vendedorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Telefono_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Telefono" Type="Self.Telefono" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Telefono">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="TipoUsuarioxUsuario">
-          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="*" />
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="netficEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="Chat" EntityType="Self.Chat" />
@@ -837,22 +741,9 @@
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" />
           <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" />
-          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <AssociationSet Name="FK_Producto_Categoria" Association="Self.FK_Producto_Categoria">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Producto" EntitySet="Producto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Chat_Usuario" Association="Self.FK_Chat_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Chat" EntitySet="Chat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Chat_Usuario1" Association="Self.FK_Chat_Usuario1">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Chat" EntitySet="Chat" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Direccion_Usuario" Association="Self.FK_Direccion_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Direccion" EntitySet="Direccion" />
           </AssociationSet>
           <AssociationSet Name="FK_PedidoProducto_EstadoPedido" Association="Self.FK_PedidoProducto_EstadoPedido">
             <End Role="EstadoPedido" EntitySet="EstadoPedido" />
@@ -866,10 +757,6 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="EvaluacionProducto" EntitySet="EvaluacionProducto" />
           </AssociationSet>
-          <AssociationSet Name="FK_EvaluacionVendedor_Usuario" Association="Self.FK_EvaluacionVendedor_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="EvaluacionVendedor" EntitySet="EvaluacionVendedor" />
-          </AssociationSet>
           <AssociationSet Name="FK_Foto_Producto" Association="Self.FK_Foto_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Foto" EntitySet="Foto" />
@@ -878,28 +765,12 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="PedidoProducto" EntitySet="PedidoProducto" />
           </AssociationSet>
-          <AssociationSet Name="FK_Producto_Usuario" Association="Self.FK_Producto_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Producto" EntitySet="Producto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Telefono_Usuario" Association="Self.FK_Telefono_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Telefono" EntitySet="Telefono" />
-          </AssociationSet>
-          <AssociationSet Name="TipoUsuarioxUsuario" Association="Self.TipoUsuarioxUsuario">
-            <End Role="TipoUsuario" EntitySet="TipoUsuario" />
-            <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
           <EntitySet Name="sysdiagrams" EntityType="netficModel.sysdiagrams" />
           <AssociationSet Name="FK_Chat_Producto" Association="netficModel.FK_Chat_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="Chat" EntitySet="Chat" />
           </AssociationSet>
           <EntitySet Name="MetodoPago" EntityType="netficModel.MetodoPago" />
-          <AssociationSet Name="FK_MetodoPago_Usuario" Association="netficModel.FK_MetodoPago_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="MetodoPago" EntitySet="MetodoPago" />
-          </AssociationSet>
           <EntitySet Name="Pedido" EntityType="netficModel.Pedido" />
           <AssociationSet Name="FK_Pedido_Direccion" Association="netficModel.FK_Pedido_Direccion">
             <End Role="Direccion" EntitySet="Direccion" />
@@ -913,13 +784,46 @@
             <End Role="MetodoPago" EntitySet="MetodoPago" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
+          <AssociationSet Name="FK_PedidoProducto_Pedido" Association="netficModel.FK_PedidoProducto_Pedido">
+            <End Role="Pedido" EntitySet="Pedido" />
+            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
+          </AssociationSet>
+          <EntitySet Name="Usuario" EntityType="netficModel.Usuario" />
+          <AssociationSet Name="FK_Chat_Usuario" Association="netficModel.FK_Chat_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Chat" EntitySet="Chat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chat_Usuario1" Association="netficModel.FK_Chat_Usuario1">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Chat" EntitySet="Chat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Direccion_Usuario" Association="netficModel.FK_Direccion_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Direccion" EntitySet="Direccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EvaluacionVendedor_Usuario" Association="netficModel.FK_EvaluacionVendedor_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="EvaluacionVendedor" EntitySet="EvaluacionVendedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetodoPago_Usuario" Association="netficModel.FK_MetodoPago_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="MetodoPago" EntitySet="MetodoPago" />
+          </AssociationSet>
           <AssociationSet Name="FK_Pedido_Usuario" Association="netficModel.FK_Pedido_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
-          <AssociationSet Name="FK_PedidoProducto_Pedido" Association="netficModel.FK_PedidoProducto_Pedido">
-            <End Role="Pedido" EntitySet="Pedido" />
-            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
+          <AssociationSet Name="FK_Producto_Usuario" Association="netficModel.FK_Producto_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Telefono_Usuario" Association="netficModel.FK_Telefono_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Telefono" EntitySet="Telefono" />
+          </AssociationSet>
+          <AssociationSet Name="TipoUsuarioxUsuario" Association="netficModel.TipoUsuarioxUsuario">
+            <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+            <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="sysdiagrams">
@@ -952,21 +856,9 @@
           <Property Name="usuarioId" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="numero" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_MetodoPago_Usuario" FromRole="MetodoPago" ToRole="Usuario" />
           <NavigationProperty Name="Pedido" Relationship="netficModel.FK_Pedido_MetodoPago" FromRole="MetodoPago" ToRole="Pedido" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_MetodoPago_Usuario" FromRole="MetodoPago" ToRole="Usuario" />
         </EntityType>
-        <Association Name="FK_MetodoPago_Usuario">
-          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="netficModel.MetodoPago" Role="MetodoPago" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="MetodoPago">
-              <PropertyRef Name="usuarioId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Pedido">
           <Key>
             <PropertyRef Name="id" />
@@ -981,8 +873,8 @@
           <NavigationProperty Name="Direccion" Relationship="netficModel.FK_Pedido_Direccion" FromRole="Pedido" ToRole="Direccion" />
           <NavigationProperty Name="EstadoPedido" Relationship="netficModel.FK_Pedido_EstadoPedido" FromRole="Pedido" ToRole="EstadoPedido" />
           <NavigationProperty Name="MetodoPago" Relationship="netficModel.FK_Pedido_MetodoPago" FromRole="Pedido" ToRole="MetodoPago" />
-          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Pedido_Usuario" FromRole="Pedido" ToRole="Usuario" />
           <NavigationProperty Name="PedidoProducto" Relationship="netficModel.FK_PedidoProducto_Pedido" FromRole="Pedido" ToRole="PedidoProducto" />
+          <NavigationProperty Name="Usuario" Relationship="netficModel.FK_Pedido_Usuario" FromRole="Pedido" ToRole="Usuario" />
         </EntityType>
         <Association Name="FK_Pedido_Direccion">
           <End Type="netficModel.Direccion" Role="Direccion" Multiplicity="1" />
@@ -1020,6 +912,98 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PedidoProducto_Pedido">
+          <End Type="netficModel.Pedido" Role="Pedido" Multiplicity="1" />
+          <End Type="netficModel.PedidoProducto" Role="PedidoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedido">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PedidoProducto">
+              <PropertyRef Name="pedidoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellidos" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Chat" Relationship="netficModel.FK_Chat_Usuario" FromRole="Usuario" ToRole="Chat" />
+          <NavigationProperty Name="Chat1" Relationship="netficModel.FK_Chat_Usuario1" FromRole="Usuario" ToRole="Chat" />
+          <NavigationProperty Name="Direccion" Relationship="netficModel.FK_Direccion_Usuario" FromRole="Usuario" ToRole="Direccion" />
+          <NavigationProperty Name="EvaluacionVendedor" Relationship="netficModel.FK_EvaluacionVendedor_Usuario" FromRole="Usuario" ToRole="EvaluacionVendedor" />
+          <NavigationProperty Name="MetodoPago" Relationship="netficModel.FK_MetodoPago_Usuario" FromRole="Usuario" ToRole="MetodoPago" />
+          <NavigationProperty Name="Pedido" Relationship="netficModel.FK_Pedido_Usuario" FromRole="Usuario" ToRole="Pedido" />
+          <NavigationProperty Name="Producto" Relationship="netficModel.FK_Producto_Usuario" FromRole="Usuario" ToRole="Producto" />
+          <NavigationProperty Name="Telefono" Relationship="netficModel.FK_Telefono_Usuario" FromRole="Usuario" ToRole="Telefono" />
+          <NavigationProperty Name="TipoUsuario" Relationship="netficModel.TipoUsuarioxUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
+        </EntityType>
+        <Association Name="FK_Chat_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.Chat" Role="Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="emisorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chat_Usuario1">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.Chat" Role="Chat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Chat">
+              <PropertyRef Name="receptorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Direccion_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.Direccion" Role="Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EvaluacionVendedor_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.EvaluacionVendedor" Role="EvaluacionVendedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EvaluacionVendedor">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetodoPago_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.MetodoPago" Role="MetodoPago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MetodoPago">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Pedido_Usuario">
           <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
           <End Type="netficModel.Pedido" Role="Pedido" Multiplicity="*" />
@@ -1032,17 +1016,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PedidoProducto_Pedido">
-          <End Type="netficModel.Pedido" Role="Pedido" Multiplicity="1" />
-          <End Type="netficModel.PedidoProducto" Role="PedidoProducto" Multiplicity="*" />
+        <Association Name="FK_Producto_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.Producto" Role="Producto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Pedido">
+            <Principal Role="Usuario">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="PedidoProducto">
-              <PropertyRef Name="pedidoId" />
+            <Dependent Role="Producto">
+              <PropertyRef Name="vendedorId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Telefono_Usuario">
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="netficModel.Telefono" Role="Telefono" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Telefono">
+              <PropertyRef Name="usuarioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TipoUsuarioxUsuario">
+          <End Type="netficModel.TipoUsuario" Role="TipoUsuario" Multiplicity="*" />
+          <End Type="netficModel.Usuario" Role="Usuario" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1170,26 +1170,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Usuario">
-            <EntityTypeMapping TypeName="netficModel.Usuario">
-              <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="TipoUsuarioxUsuario" TypeName="netficModel.TipoUsuarioxUsuario" StoreEntitySet="TipoUsuarioxUsuario">
-            <EndProperty Name="TipoUsuario">
-              <ScalarProperty Name="id" ColumnName="tipoUsuarioId" />
-            </EndProperty>
-            <EndProperty Name="Usuario">
-              <ScalarProperty Name="id" ColumnName="usuarioId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="netficModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -1224,6 +1204,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="netficModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TipoUsuarioxUsuario" TypeName="netficModel.TipoUsuarioxUsuario" StoreEntitySet="TipoUsuarioxUsuario">
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="id" ColumnName="usuarioId" />
+            </EndProperty>
+            <EndProperty Name="TipoUsuario">
+              <ScalarProperty Name="id" ColumnName="tipoUsuarioId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

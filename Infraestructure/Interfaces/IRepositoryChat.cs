@@ -10,5 +10,9 @@ namespace Infraestructure.Interfaces
     public interface IRepositoryChat
     {
         IEnumerable<Chat> GetChatsByVendedorProducto(int id, int idProducto);
+
+        Chat GetChatById(int id);
+
+        Chat Save(Chat chat);
     }
 }

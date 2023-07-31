@@ -12,5 +12,6 @@ namespace ApplicationCore.Interfaces
 
         IEnumerable<Chat> GetChatsByVendedorProducto(int id, int idProducto);
 
+        Chat Save(Chat chat);
     }
 }

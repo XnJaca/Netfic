@@ -15,7 +15,8 @@ namespace ApplicationCore.Services
     {
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            IRepositoryProducto repositoryProducto = new RepositoryProducto();
+            return repositoryProducto.Delete(id);
         }
 
         public Producto GetProductoById(int id)

@@ -110,8 +110,25 @@ namespace Web.Controllers
             try
             {
                 // TODO: Add insert logic here
-                Usuario oUsuario = _ServiceUsuario.Save(pUsuario, tipoUsuarios, telefonos);
 
+                
+
+                foreach (var item in telefonos)
+                {
+                    if (telefonos.Length == 1)
+                    {
+                        var phones = item.Split(',');
+
+                        var telefono = new Telefono
+                        {
+                            numero = int.Parse(phones[0]),
+                            tipoTelefono = phones[1].Trim(),
+                            usuarioId = pUsuario.id
+                        };
+                        pUsuario.Telefono.Add(telefono);
+                    }
+                }
+                Usuario oUsuario = _ServiceUsuario.Save(pUsuario, tipoUsuarios, telefonos);
                 return RedirectToAction("Index");
             }
             catch

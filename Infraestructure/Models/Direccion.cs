@@ -28,8 +28,8 @@ namespace Infraestructure.Models
         public string direccion1 { get; set; }
         public string codigoPostal { get; set; }
     
-        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedido { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

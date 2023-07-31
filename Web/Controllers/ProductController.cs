@@ -2,6 +2,7 @@
 using ApplicationCore.Services;
 using Infraestructure.Models;
 using Infraestructure.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Web.Utils;
 
 namespace Web.Controllers
 {
@@ -19,13 +21,37 @@ namespace Web.Controllers
         public ActionResult Index()
         {
 
+            //IEnumerable<Producto> lista;
+
+            //try
+            //{
+            //    IServiceProducto _ServiceProducto = new ServiceProducto();
+
+            //    lista = _ServiceProducto.GetProductos();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error(ex, MethodBase.GetCurrentMethod());
+            //    TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+            //    return RedirectToAction("Default", "Error");
+            //}
+            //ViewBag.currentPage = "Productos";
+            //return View(lista);
+            Usuario oUsuario = Session["Usuario"] as Usuario;
             IEnumerable<Producto> lista;
+
+            if (TempData.ContainsKey("mensaje"))
+            {
+                ViewBag.NotificationMessage = TempData["mensaje"];
+            }
 
             try
             {
                 IServiceProducto _ServiceProducto = new ServiceProducto();
 
-                lista = _ServiceProducto.GetProductos();
+
+                lista = _ServiceProducto.GetProductosByVendedor(oUsuario.id);
+
             }
             catch (Exception ex)
             {
@@ -42,6 +68,11 @@ namespace Web.Controllers
 
             Usuario oUsuario = Session["Usuario"] as Usuario;
             IEnumerable<Producto> lista;
+
+            if (TempData.ContainsKey("mensaje"))
+            {
+                ViewBag.NotificationMessage = TempData["mensaje"];
+            }
 
             try
             {
@@ -158,41 +189,53 @@ namespace Web.Controllers
         {
             MemoryStream target = new MemoryStream();
             IServiceProducto serviceProducto = new ServiceProducto();
+
             Usuario oUsuario = Session["Usuario"] as Usuario;
-            try
+
+            if (pProducto.Foto == null)
             {
-                if (pProducto.Foto == null)
+                if (ImageFiles != null && ImageFiles.Count > 0)
                 {
-                    if (ImageFiles != null && ImageFiles.Count > 0)
+                    foreach (var imageFile in ImageFiles)
                     {
-                        foreach (var imageFile in ImageFiles)
+                        if (imageFile != null)
                         {
-                            if (imageFile != null)
+                            // Procesar el archivo de imagen y guardarlo en la entidad Producto
+                            using (var memoryStream = new MemoryStream())
                             {
-                                // Procesar el archivo de imagen y guardarlo en la entidad Producto
-                                using (var memoryStream = new MemoryStream())
+                                imageFile.InputStream.CopyTo(memoryStream);
+                                try
                                 {
-                                    imageFile.InputStream.CopyTo(memoryStream);
                                     byte[] imageBytes = memoryStream.ToArray();
                                     // Guardar los bytes de la imagen en la entidad Producto
                                     // Asegúrate de tener una propiedad en la entidad Producto para almacenar la imagen
                                     pProducto.Foto.Add(new Foto { foto1 = imageBytes });
                                 }
+                                catch (Exception)
+                                {
+
+                                    throw;
+                                }
+
                             }
                         }
                     }
                 }
-
-                pProducto.vendedorId = oUsuario.id;
-                // Guardar el Producto en la base de datos
-                serviceProducto.Save(pProducto, ImageFiles);
-
-                return RedirectToAction("Index");
             }
-            catch
+
+            pProducto.vendedorId = oUsuario.id;
+            // Guardar el Producto en la base de datos
+            serviceProducto.Save(pProducto, ImageFiles);
+            if (oUsuario.TipoUsuario.FirstOrDefault().id == 3)
             {
-                return View();
+                return RedirectToAction("IndexSeller");
             }
+            else
+            {
+                return RedirectToAction("Index", "Product");
+            }
+
+
         }
 
         // GET: Product/Edit/5
@@ -249,26 +292,61 @@ namespace Web.Controllers
             }
         }
 
-        // GET: Product/Delete/5
+        //GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Product/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
+            IServiceProducto serviceProducto = new ServiceProducto();
             try
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+                bool oProducto = serviceProducto.Delete(id);
+
+                if (oProducto)
+                {
+                    Log.Warn($"Se elimino correctamente el producto con el ID {id}.");
+                    TempData["mensaje"] = Util.SweetAlertHelper.Mensaje("Producto",
+                        "Se elimino correctamente el producto.", Util.SweetAlertMessageType.success);
+                }
+
+                return RedirectToAction("IndexSeller");
             }
             catch
             {
-                return View();
+                //Log.Warn($"Sucedio un error al borrar el producto, asegurese que no tiene pedidos asociados a este producto.");
+
+                Log.Warn($"Sucedio un error al borrar el producto, asegurese que no tiene pedidos asociados a este producto.");
+                TempData["mensaje"] = Util.SweetAlertHelper.Mensaje("Producto",
+                    "Sucedio un error al eliminar el producto, asegurese que no tiene pedidos asociados al mismo.", Util.SweetAlertMessageType.warning);
+                return RedirectToAction("IndexSeller");
             }
         }
+
+        // POST: Product/Delete/5
+        //[HttpPost]
+        //public ActionResult Delete(int id)
+        //{
+        //    IServiceProducto serviceProducto = new ServiceProducto();
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
+
+        //        bool oProducto = serviceProducto.Delete(id);
+                
+        //        if (oProducto)
+        //        {
+        //            Log.Warn($"Se elimino correctamente el Producto.");
+
+        //            ViewBag.NotificationMessage = Util.SweetAlertHelper.Mensaje("Producto",
+        //                "Eliminar Producto", Util.SweetAlertMessageType.warning);
+        //        }
+
+        //        return RedirectToAction("IndexSeller");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

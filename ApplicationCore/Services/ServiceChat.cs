@@ -18,5 +18,11 @@ namespace ApplicationCore.Services
 
             return repositoryChat.GetChatsByVendedorProducto(id, idProducto);
         }
+
+        public Chat Save(Chat chat)
+        {
+            IRepositoryChat repository = new RepositoryChat();
+            return repository.Save(chat);
+        }
     }
 }

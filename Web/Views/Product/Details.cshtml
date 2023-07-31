@@ -32,12 +32,21 @@
         color: #999;
         margin-top: 5px;
     }
+
+    .response-button {
+        padding: 12px;
+    }
 </style>
+
 @model Infraestructure.Models.Producto
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var usuario = Session["Usuario"] as Infraestructure.Models.Usuario;
+
+    string tipoUsuario = usuario.TipoUsuario.FirstOrDefault().descripcion.ToLower();
 }
 
 
@@ -83,11 +92,11 @@
                             <label class="mt-4">Descripcion</label>
                             <p>@Html.DisplayFor(model => model.descripcion)</p>
                             @*<ul>
-            <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
-            <li>Memory swivel seat returns to original seat position</li>
-            <li>Comfortable integrated layered chair seat cushion design</li>
-            <li>Fully assembled! No assembly required</li>
-        </ul>*@
+                                    <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+                                    <li>Memory swivel seat returns to original seat position</li>
+                                    <li>Comfortable integrated layered chair seat cushion design</li>
+                                    <li>Fully assembled! No assembly required</li>
+                                </ul>*@
                             <div class="row mt-4">
                                 <div class="col-lg-5 mt-lg-0 mt-2">
                                     <label>Categoria</label><br />
@@ -122,18 +131,24 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-4">Enviar mensaje</h5>
-                    <form>
+
+                    @using (Html.BeginForm("Save", "Chat", FormMethod.Post, new { enctype = "multipart/form-data", id = "chatForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="idEmisor" id="nombre" value="@usuario.id" hidden>
+                            <input type="text" class="form-control" name="idProducto" id="idProducto" value="@Model.id" hidden />
+                            <input type="text" class="form-control" name="idReceptor" id="idVendedor" value="@Model.vendedorId" hidden />
+                        </div>
 
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                            <input type="text" class="form-control" id="nombre">
-                        </div>
-                        <div class="form-group">
                             <label for="mensaje">Mensaje</label>
-                            <textarea class="form-control" id="mensaje" rows="4"></textarea>
+                            <textarea class="form-control" name="texto" id="mensaje" rows="4"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
+                    }
+
+
                 </div>
             </div>
         </div>
@@ -142,7 +157,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-4">Mensajes</h5>
-                    <div class="messages">
+                    <div class="messages" id="messagesSection">
                         @foreach (var chat in ViewBag.chats)
                         {
                             <div class="message">
@@ -150,8 +165,30 @@
                                 <p class="message-time">Hora: @chat.fechaEnvio.ToString("HH:mm")</p>
                                 @if (!string.IsNullOrEmpty(chat.respuesta))
                                 {
-                                    <p class="response-message"><strong>@chat.Usuario1.nombre:</strong> @chat.respuesta</p>
-                                    <p class="message-time">Hora: @chat.fechaEnvio.ToString("HH:mm")</p>
+                                    <div class="input-group mb-3 d-flex justify-content-end ">
+                                        <div class="col-md-10">
+                                            <p class="response-message"><strong>@chat.Usuario1.nombre:</strong> @chat.respuesta</p>
+                                            <p class="message-time">Hora: @chat.fechaEnvio.ToString("HH:mm")</p>
+                                        </div>
+                                    </div>
+                                }
+                                else if (tipoUsuario == "administrador" || tipoUsuario == "vendedor")
+                                {
+                                    <div class="input-group mb-3 d-flex justify-content-end">
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="idChat" value="@chat.id" hidden>
+                                            <input type="text" class="form-control" name="idEmisor" value="@usuario.id" hidden>
+                                            <input type="text" class="form-control" name="idProducto" value="@Model.id" hidden />
+                                            <input type="text" class="form-control" name="idReceptor" value="@Model.vendedorId" hidden />
+                                            <input type="text" class="form-control response-input" id="texto" name="texto" required>
+                                        </div>
+                                        <div class="input-group-append ms-2">
+                                            <!-- Aplicamos la clase "response-button" para que el botón sea redondo y el ícono se centre -->
+                                            <button class="btn btn-primary response-button" onclick="enviarRespuesta(@chat.id)">
+                                                <i class="fas fa-paper-plane"></i> <!-- Aquí está el ícono del avión de papel de Font Awesome -->
+                                            </button>
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         }
@@ -163,59 +200,40 @@
 </div>
 
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
+    <script>
+        function enviarRespuesta(idChat) {
+            var respuestaInput = $('#texto');
+            var respuesta = respuestaInput.val();
 
+            var data = {
+                idChat: idChat,
+                idEmisor: '@usuario.id',
+                idProducto: '@Model.id',
+                idReceptor: '@Model.vendedorId',
+                texto: respuesta
+            };
 
-    <!--<div class="col-lg-8 mt-lg-0 mt-4">
-        <div class="card">
-            <div class="card-body">-->
-    @*<h5 class="font-weight-bolder">Informacion del Producto</h5>*@
-    <!--<div class="row">
-        <div class="col-12 col-sm-6">
-            <h3 class="mt-lg-0 mt-4">@Html.DisplayFor(model => model.nombre)</h3>
-        </div>
-        <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-            @Html.LabelFor(model => model.EstadoProducto, "Estado")
-            @Html.DropDownList("estadoProducto",
-                 (SelectList)ViewBag.idEstadoProducto,
-                 htmlAttributes: new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <label class="mt-4">Precio</label>
-            <div class="input-group input-group-alternative mb-4">
-                <span class="input-group-text" style="font-weight: bold;">&#8353;</span>
-                <input class="form-control" type="number" value="99.00" style="text-align: right;">
-            </div>
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "Chat")',
+                data: data,
+                success: function (response) {
+                    //// Actualizar la sección de mensajes con la respuesta del servidor
+                    //$('#messagesSection').html(response);
 
-        </div>
-        <div class="col-3">
-            <label class="mt-4">Cantidad</label>
-            <input class="form-control" type="number" value="50">
-        </div>
-        <div class="col-sm-6">-->
-    @*<label class="mt-4">Categoria</label><select class="form-control">*@
-    <!--@Html.LabelFor(model => model.Categoria, "Categoria", htmlAttributes: new { @class = "mt-4" })
-            @Html.DropDownList("categoria",
-                (SelectList)ViewBag.idCategoria,
-                htmlAttributes: new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <label class="mt-4">Descripcion</label>
-            <p class="form-text text-muted text-xs ms-1 d-inline">-->
-    @* (optional)*@
-    <!--</p>
-                        <div>
-                            <textarea class="form-control" type="text" rows="10" cols="50"> </textarea>
-                        </div>
-                    </div>
+                    //// Limpiar el campo de respuesta después de enviar
+                    //responseInput.val('');
+                    // Recargar la página completa
+                    location.reload();
+                },
+                error: function () {
+                    // Manejar los errores si es necesario
+                }
+            });
+        }
+    </script>
+}
 
-                </div>
-            </div>
-        </div>
-    </div>-->
-
-</div>

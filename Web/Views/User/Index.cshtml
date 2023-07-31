@@ -73,7 +73,7 @@
                                     </td>
                                     <td class="align-middle text-center text-sm">
 
-                                        @if (item.estado == 0)
+                                        @if (!item.estado)
                                         {
                                             <span class="badge badge-sm bg-gradient-danger">Inactivo</span>
                                         }

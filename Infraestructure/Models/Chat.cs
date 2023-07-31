@@ -22,8 +22,8 @@ namespace Infraestructure.Models
         public int productoId { get; set; }
         public string respuesta { get; set; }
     
+        public virtual Producto Producto { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
-        public virtual Producto Producto { get; set; }
     }
 }

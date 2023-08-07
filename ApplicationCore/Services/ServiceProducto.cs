@@ -19,6 +19,12 @@ namespace ApplicationCore.Services
             return repositoryProducto.Delete(id);
         }
 
+        public IEnumerable<Producto> GetProductoByCategoria(int categoriaId)
+        {
+            IRepositoryProducto repositoryProducto = new RepositoryProducto();
+            return repositoryProducto.GetProductoByCategoria(categoriaId);
+        }
+
         public Producto GetProductoById(int id)
         {
             IRepositoryProducto repositoryProducto = new RepositoryProducto();

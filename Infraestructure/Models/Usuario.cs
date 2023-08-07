@@ -21,13 +21,13 @@ namespace Infraestructure.Models
         {
             this.Chat = new HashSet<Chat>();
             this.Chat1 = new HashSet<Chat>();
-            this.Direccion = new HashSet<Direccion>();
             this.EvaluacionVendedor = new HashSet<EvaluacionVendedor>();
             this.MetodoPago = new HashSet<MetodoPago>();
             this.Pedido = new HashSet<Pedido>();
             this.Producto = new HashSet<Producto>();
             this.Telefono = new HashSet<Telefono>();
             this.TipoUsuario = new HashSet<TipoUsuario>();
+            this.Direccion = new HashSet<Direccion>();
         }
 
         public int id { get; set; }
@@ -42,8 +42,6 @@ namespace Infraestructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chat> Chat1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Direccion> Direccion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EvaluacionVendedor> EvaluacionVendedor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MetodoPago> MetodoPago { get; set; }
@@ -55,5 +53,7 @@ namespace Infraestructure.Models
         public virtual ICollection<Telefono> Telefono { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Direccion> Direccion { get; set; }
     }
 }

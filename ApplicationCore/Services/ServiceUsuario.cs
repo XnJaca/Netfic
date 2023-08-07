@@ -19,6 +19,13 @@ namespace ApplicationCore.Services
             return repository.GetUsuarioById(id);
         }
 
+        public IEnumerable<Usuario> GetUsuarioDeshabilitados()
+        {
+            IRepositoryUsuario repository = new RepositoryUsuario();
+
+            return repository.GetUsuarioDeshabilitados();
+        }
+
         public IEnumerable<Usuario> GetUsuarios()
         {
             IRepositoryUsuario repository = new RepositoryUsuario();

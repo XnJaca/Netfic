@@ -34,6 +34,26 @@ namespace Web.Controllers
             return View(lista);
         }
 
+        public ActionResult GetUsuariosDeshabilitados()
+        {
+            IEnumerable<Usuario> lista;
+            try
+            {
+                IServiceUsuario _ServiceUsuario = new ServiceUsuario();
+                lista = _ServiceUsuario.GetUsuarioDeshabilitados();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+
+            ViewBag.currentPage = "Usuarios";
+            return View(lista);
+
+        }
+
         // GET: User/Details/5
         public ActionResult Details(int? id)
         {
@@ -109,25 +129,6 @@ namespace Web.Controllers
 
             try
             {
-                // TODO: Add insert logic here
-
-                
-
-                foreach (var item in telefonos)
-                {
-                    if (telefonos.Length == 1)
-                    {
-                        var phones = item.Split(',');
-
-                        var telefono = new Telefono
-                        {
-                            numero = int.Parse(phones[0]),
-                            tipoTelefono = phones[1].Trim(),
-                            usuarioId = pUsuario.id
-                        };
-                        pUsuario.Telefono.Add(telefono);
-                    }
-                }
                 Usuario oUsuario = _ServiceUsuario.Save(pUsuario, tipoUsuarios, telefonos);
                 return RedirectToAction("Index");
             }

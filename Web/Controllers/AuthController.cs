@@ -18,8 +18,26 @@ namespace Web.Controllers
         // GET: Auth
         public ActionResult Index()
         {
-           
-                return View();
+
+            return View();
+        }
+
+        public ActionResult SignIn(string tipo)
+        {
+            Usuario usuario = new Usuario();
+            usuario.nombre = "Invitado";
+            usuario.apellidos = "Invitaod";
+            usuario.TipoUsuario.Add(
+                new TipoUsuario
+                {
+                    id = 4,
+                    descripcion = tipo
+
+                }
+                );
+            Session["Usuario"] = usuario;
+            return RedirectToAction("Index", "Home");
+
         }
 
         public ActionResult Login(string username, string password)
@@ -38,6 +56,16 @@ namespace Web.Controllers
 
                     ViewBag.NotificationMessage = Util.SweetAlertHelper.Mensaje("Login",
                         "Usuario no válido", Util.SweetAlertMessageType.warning);
+
+                    return View("Index");
+                }
+
+                if (!oUsuario.estado)
+                {
+                    Log.Warn($"Intento de inicio de secion{username}");
+
+                    ViewBag.NotificationMessage = Util.SweetAlertHelper.Mensaje("Login",
+                        "Su usuario esta inactivo, no puede ingresar a la plataforma, contacte con un administrador.", Util.SweetAlertMessageType.warning);
 
                     return View("Index");
                 }

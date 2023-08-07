@@ -11,6 +11,7 @@ namespace ApplicationCore.Interfaces
     {
 
         IEnumerable<Usuario> GetUsuarios();
+        IEnumerable<Usuario> GetUsuarioDeshabilitados();
 
         Usuario GetUsuarioById(int id);
         Usuario Save(Usuario pUsuario, string[] pTipoUsuarios, string[] pTelefonos);

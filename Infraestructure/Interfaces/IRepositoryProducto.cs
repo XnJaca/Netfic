@@ -16,6 +16,8 @@ namespace Infraestructure.Interfaces
 
         IEnumerable<Producto> GetProductosByVendedor(int vendedorId);
 
+        IEnumerable<Producto> GetProductoByCategoria(int categoriaId);
+
         Producto Save(Producto producto, List<HttpPostedFileBase> imageFiles);
 
         Boolean Delete(int id);

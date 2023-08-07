@@ -28,11 +28,11 @@ namespace Infraestructure.Models
         public double total { get; set; }
         public System.DateTime fecha_pedido { get; set; }
     
-        public virtual Direccion Direccion { get; set; }
         public virtual EstadoPedido EstadoPedido { get; set; }
         public virtual MetodoPago MetodoPago { get; set; }
+        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoProducto> PedidoProducto { get; set; }
-        public virtual Usuario Usuario { get; set; }
+        public virtual Direccion Direccion { get; set; }
     }
 }

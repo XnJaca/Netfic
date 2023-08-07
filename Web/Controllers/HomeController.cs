@@ -23,12 +23,16 @@ namespace Web.Controllers
             {
                 Usuario oUsuario = Session["Usuario"] as Usuario;
 
+                //if (oUsuario == null)
+                //{
+                //    return RedirectToAction("CustomerIndex", "Home");
+                //}
                 if (oUsuario.TipoUsuario.FirstOrDefault().id == 1)
                 {
 
                     return View();
                 }
-                else if (oUsuario.TipoUsuario.FirstOrDefault().id == 2)
+                else if (oUsuario.TipoUsuario.FirstOrDefault().id == 2 || oUsuario.TipoUsuario.FirstOrDefault().id == 4)
                 {
 
                     return RedirectToAction("CustomerIndex", "Home");
@@ -54,6 +58,9 @@ namespace Web.Controllers
             try
             {
                 IServiceProducto _ServiceProducto = new ServiceProducto();
+                IServiceCategoria _ServiceCategoria = new ServiceCategoria();
+
+                ViewBag.listaCategorias = _ServiceCategoria.GetCategorias();
 
                 lista = _ServiceProducto.GetProductos();
             }
@@ -65,6 +72,27 @@ namespace Web.Controllers
             }
             ViewBag.currentPage = "Dashboard";
             return View(lista);
+        }
+
+        public PartialViewResult productoxCategoria(int categoria)
+        {
+            try
+            {
+                //Contenido a actualizar
+                IEnumerable<Producto> lista = null;
+                IServiceProducto _ServiceProducto = new ServiceProducto();
+
+                lista = _ServiceProducto.GetProductoByCategoria((int)categoria);
+
+                //Nombre vista, datos para la vista
+                return PartialView("_PartialViewProducto", lista);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
 

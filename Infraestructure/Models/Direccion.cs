@@ -11,7 +11,7 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Direccion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,17 +19,16 @@ namespace Infraestructure.Models
         {
             this.Pedido = new HashSet<Pedido>();
         }
-    
+
         public int id { get; set; }
         public int idUsuario { get; set; }
         public string provincia { get; set; }
         public string canton { get; set; }
         public string distrito { get; set; }
-        public string direccion1 { get; set; }
-        public string codigoPostal { get; set; }
-    
+
+        public Dictionary<string, ProvinciaData> Provincias { get; set; }
+        public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedido { get; set; }
-        public virtual Usuario Usuario { get; set; }
     }
 }

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Infraestructure.Models.Direccion>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int idUsuario = ViewBag.idUsuario;
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0 d-flex justify-content-between align-items-center">
+                <h6>Listado de Direcciones</h6>
+                <a href="@Url.Action("Create", new { idUsuario = idUsuario })" class="btn btn-primary font-weight-normal">
+                    <i class="fa fa-plus" style="margin-right: 2px"></i> Agregar Direccion
+                </a>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0" id="usuariosTable">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"> @Html.DisplayNameFor(model => model.id)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> @Html.DisplayNameFor(model => model.provincia)</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> @Html.DisplayNameFor(model => model.canton)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">@Html.DisplayNameFor(model => model.distrito)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acciones</th>
+                                @*<th class="text-secondary opacity-7"></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"> @Html.DisplayFor(modelItem => item.id)</h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.provincia)</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.canton)</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0"> @Html.DisplayFor(modelItem => item.distrito)</p>
+                                    </td>
+
+                                    <td class="align-middle text-center">
+                                        <a href="@Url.Action("Edit", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar Direccion">
+                                            <i class="fa fa-pencil" style="color: cornflowerblue; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Direccion">
+                                            <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
+                                        </a>
+                                        <a href="@Url.Action("Delete", new { id = item.id, idUsuario = idUsuario})" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar Direccion">
+                                            <i class="fa fa-trash" style="color: palevioletred; margin-right: 10px;"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*<h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.provincia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.canton)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.distrito)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.direccion1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.codigoPostal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario.nombre)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.provincia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.canton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.distrito)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.direccion1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.codigoPostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.nombre)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>
+        </tr>
+    }
+
+    </table>*@

@@ -19,12 +19,12 @@ namespace Infraestructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
+            this.Chat = new HashSet<Chat>();
             this.EvaluacionProducto = new HashSet<EvaluacionProducto>();
             this.Foto = new HashSet<Foto>();
             this.PedidoProducto = new HashSet<PedidoProducto>();
-            this.Chat = new HashSet<Chat>();
         }
-    
+
         public int id { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
@@ -33,8 +33,10 @@ namespace Infraestructure.Models
         public int categoriaId { get; set; }
         public int estadoId { get; set; }
         public int vendedorId { get; set; }
-    
+
         public virtual Categoria Categoria { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Chat> Chat { get; set; }
         public virtual EstadoProducto EstadoProducto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EvaluacionProducto> EvaluacionProducto { get; set; }
@@ -42,8 +44,6 @@ namespace Infraestructure.Models
         public virtual ICollection<Foto> Foto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoProducto> PedidoProducto { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Chat> Chat { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 }

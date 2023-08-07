@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Infraestructure.Models.Producto>
+
+
+
+
+@foreach (var item in Model)
+{
+    <div class="card m-3 w-20">
+        <div class="card-header p-0 position-relative z-index-1">
+            <a href="javascript:;" class="d-block">
+                <img src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(item.Foto.FirstOrDefault().foto1)" class="img-fluid border-radius-lg" style="max-width: 300px; max-height: 300px;">
+            </a>
+        </div>
+        <div class="card-body pt-2">
+            <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold my-2">@item.Categoria.descripcion</span>
+            <a href="javascript:;" class="card-title h5 d-block text-darker">
+                @Html.DisplayFor(model => item.nombre)
+            </a>
+            <p class="card-description mb-4">
+               @item.descripcion
+            </p>
+            <div class="author align-items-center">
+                <div class="name ps-2">
+                    <div class="stats">
+                        <button class="btn btn-primary">Comprar</button>
+                        <a href="@Url.Action("Details", "Product", new { id = item.id })" class="btn btn-outline-primary">Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@*@foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Foto.)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Categoria.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoProducto.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.nombre)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+
+    </table>*@

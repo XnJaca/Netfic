@@ -12,6 +12,7 @@ namespace Infraestructure.Interfaces
 
         IEnumerable<Usuario> GetUsuarios();
 
+        IEnumerable<Usuario> GetUsuarioDeshabilitados();
         Usuario GetUsuarioById(int id);
 
         Usuario Save(Usuario usuario, string[] pTipoUsuarios, string[] pTelefonos);

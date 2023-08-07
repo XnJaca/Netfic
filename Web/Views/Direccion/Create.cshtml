@@ -1,0 +1,161 @@
+﻿@model Infraestructure.Models.Direccion
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Save", "Direccion", FormMethod.Post, new { enctype = "multipart/form-data", id = "direccionForm" })) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>Direccion</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.idUsuario, "idUsuario", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.idUsuario, new { htmlAttributes = new { @class = "form-control", type = "hidden", name = "idUsuario" } })
+            @Html.ValidationMessageFor(model => model.idUsuario, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.provincia, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" name="provinciaa" id="selectProvincia">
+                <option value="">Seleccione una provincia</option>
+                @foreach (var provincia in Model.Provincias)
+                {
+                    <option value="@provincia.Key">@provincia.Value.nombre</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.canton, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" name="cantonn" id="cantonSelect">
+                <option value="">Seleccione un cantón</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.distrito, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" name="distritoo" id="distritoSelect" disabled>
+                <option value="">Seleccione un distrito</option>
+            </select>
+        </div>
+    </div>
+
+
+    <input type="hidden" name="provincia" value="" />
+    <input type="hidden" name="canton" value="" />
+    <input type="hidden" name="distrito" value="" />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Guardar" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        // Cuando el select de provincias cambie
+        $('select[name="provinciaa"]').change(function () {
+            var selectedProvincia = $(this).val();
+
+            // Si no se seleccionó ninguna provincia, vaciar el select de cantones
+            if (selectedProvincia === '') {
+                $('select[name="cantonn"]').empty();
+                return;
+            }
+
+            // Realizar la solicitud HTTP para obtener los cantones de la provincia seleccionada
+            var cantonesUrl = '@Url.Action("GetCantonesByProvincia", "Direccion")'; // Reemplaza "TuControlador" por el nombre de tu controlador
+
+            $.ajax({
+                type: 'GET',
+                url: cantonesUrl,
+                data: { provincia: selectedProvincia },
+                dataType: 'json',
+                success: function (data) {
+                    //<select class="form-control" name="canton" id="cantonSelect" disabled>
+                    var cantonesSelect = $('select[name="cantonn"]');
+                    cantonesSelect.empty();
+
+                    // Agregar opciones de cantones al select
+                    $.each(data, function (key, value) {
+                        cantonesSelect.append($('<option></option>').attr('value', key).text(value.nombre));
+                    });
+                },
+                error: function () {
+                    alert('Error al cargar los cantones');
+                }
+            });
+        });
+
+        $('#cantonSelect').change(function () {
+            var selectedCanton = $(this).find('option:selected').text();
+            var selectedProvincia = $("#selectProvincia").val();
+            if (selectedCanton === '') {
+                // Limpiar y deshabilitar el select de distritos
+                $('#distritoSelect').empty().append('<option value="">Seleccione un distrito</option>').prop('disabled', true);
+                return;
+            }
+
+            // Realizar la solicitud AJAX para obtener los distritos del cantón seleccionado
+            var distritosUrl = '@Url.Action("GetDistritosByCanton", "Direccion")'; // Reemplaza "TuControlador" por el nombre de tu controlador
+
+            $.ajax({
+                type: 'GET',
+                url: distritosUrl,
+                data: { cantonNombre: selectedCanton, provinciaId: selectedProvincia },
+                dataType: 'json',
+                success: function (data) {
+                    var distritosSelect = $('#distritoSelect');
+                    distritosSelect.empty().prop('disabled', false);
+
+                    $.each(data, function (key, value) {
+                        distritosSelect.append($('<option></option>').attr('value', key).text(value));
+                    });
+                },
+                error: function () {
+                    alert('Error al cargar los distritos');
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            // Escuchar el evento submit del formulario
+            $('#direccionForm').submit(function () {
+                // Obtener los nombres seleccionados
+                var provinciaNombre = $('#selectProvincia option:selected').text();
+                var cantonNombre = $('#cantonSelect option:selected').text();
+                var distritoNombre = $('#distritoSelect option:selected').text();
+
+                // Asignar los nombres al campo de formulario correspondiente
+                $('input[name="provincia"]').val(provinciaNombre);
+                $('input[name="canton"]').val(cantonNombre);
+                $('input[name="distrito"]').val(distritoNombre);
+            });
+        });
+    });
+</script>
+}

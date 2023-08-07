@@ -9,7 +9,7 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-                <h6>Listado de Usuarios</h6>
+                <h6>Listado de Usuarios Activos</h6>
 
 
                 <div class="form-group">
@@ -19,12 +19,9 @@
                     </div>
                 </div>
 
+                <a href="@Url.Action("GetUsuariosDeshabilitados")" class="btn btn-primary font-weight-normal me-2"><i class="fa fa-eyes" style="margin-right: 2px"></i> Usuario Inactivos</a>
+
                 <a href="@Url.Action("Create")" class="btn btn-primary font-weight-normal"><i class="fa fa-user-plus" style="margin-right: 2px"></i> Crear usuario</a>
-
-
-
-                @*<input type="text" id="buscarInput" class="dataTable-input" placeholder="Buscar usuarios" onkeyup="buscarUsuarios()">
-                    <button class="btn btn-outline-secondary" type="button" onclick="buscarUsuarios()"><i class="fa fa-search"></i></button>*@
             </div>
 
             <div class="card-body px-0 pt-0 pb-2">
@@ -99,6 +96,7 @@
                     </table>
                 </div>
             </div>
+        
         </div>
     </div>
 </div>
@@ -128,24 +126,5 @@
         }
     </script>
 }
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>*@
-@*<table class="table">*@
-@*<tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.apellidos)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.password)
-        </th>
-        <th></th>
-    </tr>*@
 
 

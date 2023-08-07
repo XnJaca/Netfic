@@ -23,7 +23,7 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    
+
 
                     using (var dbContextTransaction = ctx.Database.BeginTransaction())
                     {
@@ -83,6 +83,42 @@ namespace Infraestructure.Repository
             }
         }
 
+        public IEnumerable<Producto> GetProductoByCategoria(int categoriaId)
+        {
+            IEnumerable<Producto> oProducto;
+
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+
+                    oProducto = ctx.Producto
+                        .Include("EstadoProducto")
+                        .Include("Usuario")
+                        .Include("Categoria")
+                        .Include("Foto")
+                        .Where(p => p.categoriaId == categoriaId).ToList();
+                }
+
+
+                return oProducto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
+
         public Producto GetProductoById(int id)
         {
             Producto oProducto;
@@ -98,6 +134,7 @@ namespace Infraestructure.Repository
                         .Include("EstadoProducto")
                         .Include("Usuario")
                         .Include("Categoria")
+                        .Include("Foto")
                         .FirstOrDefault(p => p.id == id);
                 }
 

@@ -44,8 +44,10 @@
   <ItemGroup>
     <Compile Include="Interfaces\IServiceCategoria.cs" />
     <Compile Include="Interfaces\IServiceChat.cs" />
+    <Compile Include="Interfaces\IServiceDireccion.cs" />
     <Compile Include="Interfaces\IServiceEstadoProducto.cs" />
     <Compile Include="Interfaces\IServiceFoto.cs" />
+    <Compile Include="Interfaces\IServiceMetodoPago.cs" />
     <Compile Include="Interfaces\IServicePedido.cs" />
     <Compile Include="Interfaces\IServicePedidoProducto.cs" />
     <Compile Include="Interfaces\IServiceProducto.cs" />
@@ -55,8 +57,10 @@
     <Compile Include="Interfaces\IServiceUsuario.cs" />
     <Compile Include="Services\ServiceCategoria.cs" />
     <Compile Include="Services\ServiceChat.cs" />
+    <Compile Include="Services\ServiceDireccion.cs" />
     <Compile Include="Services\ServiceEstadoProducto.cs" />
     <Compile Include="Services\ServiceFoto.cs" />
+    <Compile Include="Services\ServiceMetodoPago.cs" />
     <Compile Include="Services\ServicePedido.cs" />
     <Compile Include="Services\ServicePedidoProducto.cs" />
     <Compile Include="Services\ServiceProducto.cs" />

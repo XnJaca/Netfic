@@ -20,23 +20,6 @@ namespace Web.Controllers
         // GET: Product
         public ActionResult Index()
         {
-
-            //IEnumerable<Producto> lista;
-
-            //try
-            //{
-            //    IServiceProducto _ServiceProducto = new ServiceProducto();
-
-            //    lista = _ServiceProducto.GetProductos();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Error(ex, MethodBase.GetCurrentMethod());
-            //    TempData["Message"] = "Error al procesar los datos!" + ex.Message;
-            //    return RedirectToAction("Default", "Error");
-            //}
-            //ViewBag.currentPage = "Productos";
-            //return View(lista);
             Usuario oUsuario = Session["Usuario"] as Usuario;
             IEnumerable<Producto> lista;
 
@@ -332,7 +315,7 @@ namespace Web.Controllers
         //        // TODO: Add delete logic here
 
         //        bool oProducto = serviceProducto.Delete(id);
-                
+
         //        if (oProducto)
         //        {
         //            Log.Warn($"Se elimino correctamente el Producto.");

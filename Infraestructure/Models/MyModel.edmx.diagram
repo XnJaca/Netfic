@@ -4,43 +4,42 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="418064c7516c4715bf605e30d45e5a16" Name="Diagram1">
-        <EntityTypeShape EntityType="netficModel.Categoria" Width="1.5" PointX="6" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.Chat" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.Direccion" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.EstadoPedido" Width="1.5" PointX="5.25" PointY="24.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.EstadoProducto" Width="1.5" PointX="6" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.EvaluacionProducto" Width="1.5" PointX="10.5" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.EvaluacionVendedor" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.Foto" Width="1.5" PointX="10.5" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.PedidoProducto" Width="1.5" PointX="10.5" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.Producto" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.Telefono" Width="1.5" PointX="5.25" PointY="21.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="netficModel.TipoUsuario" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+      <Diagram DiagramId="42ff3e11b0514a8cb322439873543361" Name="Diagram1">
+        <EntityTypeShape EntityType="netficModel.Categoria" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Chat" Width="1.5" PointX="8.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.EstadoPedido" Width="1.5" PointX="5.25" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.EstadoProducto" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.EvaluacionProducto" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.EvaluacionVendedor" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Foto" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.MetodoPago" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Pedido" Width="1.5" PointX="7.5" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.PedidoProducto" Width="1.5" PointX="10.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Producto" Width="1.5" PointX="5.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Telefono" Width="1.5" PointX="5.25" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.TipoUsuario" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="netficModel.Usuario" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
         <AssociationConnector Association="netficModel.FK_Producto_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Chat_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Chat_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Chat_Usuario1" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Pedido_EstadoPedido" ManuallyRouted="false" />
         <AssociationConnector Association="netficModel.FK_PedidoProducto_EstadoPedido" ManuallyRouted="false" />
         <AssociationConnector Association="netficModel.FK_Producto_EstadoProducto" ManuallyRouted="false" />
         <AssociationConnector Association="netficModel.FK_EvaluacionProducto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_EvaluacionVendedor_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="netficModel.FK_Foto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_MetodoPago_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Pedido_MetodoPago" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Pedido_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_PedidoProducto_Pedido" ManuallyRouted="false" />
         <AssociationConnector Association="netficModel.FK_PedidoProducto_Producto" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="netficModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
-        <AssociationConnector Association="netficModel.FK_Chat_Producto" />
-        <EntityTypeShape EntityType="netficModel.MetodoPago" Width="1.5" PointX="5.25" PointY="14.5" />
-        <EntityTypeShape EntityType="netficModel.Pedido" Width="1.5" PointX="8.5" PointY="15.5" />
-        <AssociationConnector Association="netficModel.FK_Pedido_Direccion" />
-        <AssociationConnector Association="netficModel.FK_Pedido_EstadoPedido" />
-        <AssociationConnector Association="netficModel.FK_Pedido_MetodoPago" />
-        <AssociationConnector Association="netficModel.FK_PedidoProducto_Pedido" />
-        <EntityTypeShape EntityType="netficModel.Usuario" Width="1.5" PointX="3" PointY="9.625" />
-        <AssociationConnector Association="netficModel.FK_Chat_Usuario" />
-        <AssociationConnector Association="netficModel.FK_Chat_Usuario1" />
+        <AssociationConnector Association="netficModel.FK_Producto_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.FK_Telefono_Usuario" ManuallyRouted="false" />
+        <AssociationConnector Association="netficModel.TipoUsuarioxUsuario" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="netficModel.Direccion" Width="1.5" PointX="5.25" PointY="9.875" />
         <AssociationConnector Association="netficModel.FK_Direccion_Usuario" />
-        <AssociationConnector Association="netficModel.FK_EvaluacionVendedor_Usuario" />
-        <AssociationConnector Association="netficModel.FK_MetodoPago_Usuario" />
-        <AssociationConnector Association="netficModel.FK_Pedido_Usuario" />
-        <AssociationConnector Association="netficModel.FK_Producto_Usuario" />
-        <AssociationConnector Association="netficModel.FK_Telefono_Usuario" />
-        <AssociationConnector Association="netficModel.TipoUsuarioxUsuario" />
+        <AssociationConnector Association="netficModel.FK_Pedido_Direccion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

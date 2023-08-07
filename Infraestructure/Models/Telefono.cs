@@ -11,14 +11,16 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
+    [MetadataType(typeof(TelefonoMetaData))]
     public partial class Telefono
     {
         public int id { get; set; }
         public int usuarioId { get; set; }
         public int numero { get; set; }
         public string tipoTelefono { get; set; }
-    
+
         public virtual Usuario Usuario { get; set; }
     }
 }

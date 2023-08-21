@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Infraestructure.Models.PedidoProducto>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Save", "Pedido", FormMethod.Post))
+{
+    <div class="container">
+        <h2 class="my-4">Carrito de Compras</h2>
+
+        @if (Model != null && Model.Any())
+        {
+
+            <div id="cartPartialContainer">
+                @Html.Partial("_CartPartial") <!-- Muestra la vista parcial del carrito -->
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Detalles del Pedido</h3>
+                    <div class="form-group">
+                        <label for="metodoPago">Método de Pago:</label>
+                        <select class="form-control" id="metodoPago" name="metodoPago">
+                            @foreach (Infraestructure.Models.MetodoPago metodo in ViewBag.MetodosPago)
+                            {
+                                <option value="@metodo.id">@metodo.tipo - @metodo.numero</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección de Entrega:</label>
+                        <select class="form-control" id="direccion" name="direccion">
+                            @foreach (Infraestructure.Models.Direccion direccion in ViewBag.Direccion)
+                            {
+                                <option value="@direccion.id">@direccion.provincia - @direccion.canton @direccion.distrito</option>
+                            }
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Realizar Pedido</button>
+                </div>
+            </div>
+
+
+        }
+        else
+        {
+            <p>No hay productos en el carrito.</p>
+        }
+    </div>
+}
+
+@if (ViewBag.NotificationMessage != null)
+{
+    <script>
+            @Html.Raw(ViewBag.NotificationMessage)
+    </script>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(document).ready(function () {
+            updateTotalAmount();
+
+            $(".update-quantity").change(function () {
+                updateCart($(this).data("product-id"), $(this).val());
+            });
+
+            $(".delete-product").click(function () {
+                deleteProduct($(this).data("product-id"));
+            });
+
+            function updateCart(productId, quantity) {
+                $.ajax({
+                    url: "@Url.Action("UpdateCart", "Pedido")",
+                    method: "POST",
+                    data: { productId: productId, quantity: quantity },
+                    success: function (response) {
+                        if (response.success) {
+                            updateTotalAmount();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Error al actualizar el carrito.");
+                    }
+                });
+            }
+
+            function deleteProduct(productId, deleteUrl) {
+                $.ajax({
+                    url: deleteUrl,
+                    method: "POST",
+                    data: { productId: productId },
+                    success: function () {
+                        // Cargar la vista parcial actualizada en el contenedor
+                        $("#cartPartialContainer").load(deleteUrl);
+                    },
+                    error: function () {
+                        alert("Error al eliminar el producto del carrito.");
+                    }
+                });
+            }
+
+            function updateTotalAmount() {
+                var total = 0;
+                var subtotal = 0;
+                $("input[type='number']").each(function () {
+                    var quantity = parseInt($(this).val());
+                    var unitPrice = parseFloat($(this).data("unit-price"));
+                    subtotal = unitPrice * quantity;
+                    total += subtotal;
+                });
+                $("#subtotal").text(subtotal.toFixed(2));
+                $("#totalAmount").text(total.toFixed(2));
+            }
+        });
+</script>
+
+}

@@ -25,7 +25,10 @@ namespace Infraestructure.Models
         public string provincia { get; set; }
         public string canton { get; set; }
         public string distrito { get; set; }
-
+        public override string ToString()
+        {
+            return $"{provincia}, {canton}, {distrito}";
+        }
         public Dictionary<string, ProvinciaData> Provincias { get; set; }
         public virtual Usuario Usuario { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

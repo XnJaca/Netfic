@@ -12,6 +12,12 @@ namespace ApplicationCore.Services
 {
     public class ServicePedido : IServicePedido
     {
+        public bool CambiarEstado(int pedidoId, int estado)
+        {
+            IRepositoryPedido repositoryPedido = new RepositoryPedido();
+            return repositoryPedido.CambiarEstado(pedidoId, estado);
+        }
+
         public Pedido GetPedidoById(int idPedido)
         {
             IRepositoryPedido repositoryPedido = new RepositoryPedido();
@@ -34,6 +40,12 @@ namespace ApplicationCore.Services
         {
             IRepositoryPedido repositoryPedido = new RepositoryPedido();
             return repositoryPedido.GetPedidosByVendedor(vendedorId);
+        }
+
+        public bool Save(Pedido pedido, List<PedidoProducto> products)
+        {
+            IRepositoryPedido repositoryPedido = new RepositoryPedido();
+            return repositoryPedido.Save(pedido, products);
         }
     }
 }

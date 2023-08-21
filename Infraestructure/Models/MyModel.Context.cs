@@ -34,11 +34,11 @@ namespace Infraestructure.Models
         public virtual DbSet<Foto> Foto { get; set; }
         public virtual DbSet<MetodoPago> MetodoPago { get; set; }
         public virtual DbSet<Pedido> Pedido { get; set; }
-        public virtual DbSet<PedidoProducto> PedidoProducto { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Telefono> Telefono { get; set; }
         public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Direccion> Direccion { get; set; }
+        public virtual DbSet<PedidoProducto> PedidoProducto { get; set; }
     }
 }

@@ -7,15 +7,20 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Entity;
 
 namespace Infraestructure.Repository
 {
-    public class RepositoryPedidoProducto : IRepositoryPedidoProducto
+    public class RepositoryEstadoPedido : IRepositoryEstadoPedido
     {
-        public IEnumerable<PedidoProducto> GetPedidosProductoxVendedor(int vendedorId)
+
+        public IEnumerable<EstadoPedido> GetAll()
         {
-            IEnumerable<PedidoProducto> pedidoProductos;
+            throw new NotImplementedException();
+        }
+
+        public EstadoPedido GetById(int id)
+        {
+            EstadoPedido estadoPedido;
 
             try
             {
@@ -24,13 +29,10 @@ namespace Infraestructure.Repository
 
                     ctx.Configuration.LazyLoadingEnabled = false;
 
-                    pedidoProductos = ctx.PedidoProducto
-                        .Include(p => p.Producto)
-                        .Include(p => p.Pedido)
-                        .Include("Pedido.Usuario").ToList();
+                    estadoPedido = ctx.EstadoPedido.Find(id);
                 }
 
-                return pedidoProductos;
+                return estadoPedido;
             }
             catch (DbUpdateException dbEx)
             {
@@ -44,11 +46,6 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
-        }
-
-        public IEnumerable<PedidoProducto> GetPedidosxProducto(int productoId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

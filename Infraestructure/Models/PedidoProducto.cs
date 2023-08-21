@@ -17,10 +17,8 @@ namespace Infraestructure.Models
         public int productoId { get; set; }
         public int pedidoId { get; set; }
         public int cantidad { get; set; }
-        public int estadoPedidoId { get; set; }
         public double subtotal { get; set; }
     
-        public virtual EstadoPedido EstadoPedido { get; set; }
         public virtual Pedido Pedido { get; set; }
         public virtual Producto Producto { get; set; }
     }

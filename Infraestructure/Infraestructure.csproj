@@ -62,6 +62,7 @@
     <Compile Include="Interfaces\IRepositoryCategoria.cs" />
     <Compile Include="Interfaces\IRepositoryChat.cs" />
     <Compile Include="Interfaces\IRepositoryDireccion.cs" />
+    <Compile Include="Interfaces\IRepositoryEstadoPedido.cs" />
     <Compile Include="Interfaces\IRepositoryEstadoProducto.cs" />
     <Compile Include="Interfaces\IRepositoryFoto.cs" />
     <Compile Include="Interfaces\IRepositoryMetodoPago.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Repository\RepositoryCategoria.cs" />
     <Compile Include="Repository\RepositoryChat.cs" />
     <Compile Include="Repository\RepositoryDireccion.cs" />
+    <Compile Include="Repository\RepositoryEstadoPedido.cs" />
     <Compile Include="Repository\RepositoryEstadoProducto.cs" />
     <Compile Include="Repository\RepositoryFoto.cs" />
     <Compile Include="Repository\RepositoryMetodoPago.cs" />

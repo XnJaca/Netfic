@@ -8,6 +8,22 @@
 
 <div class="card">
     <div class="table-responsive">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Filtrar por estado:</label>
+                        <select id="estadoFiltro" class="form-control">
+                            <option value="">Todos</option>
+                            <option value="1">Pendiente</option>
+                            <option value="2">Aceptado</option>
+                            <option value="3">Enviado</option>
+                            <option value="4">Entregado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <table class="table align-items-center mb-0">
             <thead>
                 <tr>
@@ -21,12 +37,12 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr class="pedido-row estado-@item.estadoPedidoId">
                         <td>
                             <div class="d-flex px-2 py-1">
                                 <div class="d-flex flex-column justify-content-center">
                                     <h6 class="mb-0 text-xs">@Html.DisplayFor(modelItem => item.id)</h6>
-                                    @*<p class="text-xs text-secondary mb-0"> @Html.DisplayFor(modelItem => item.PedidoProducto.FirstOrDefault().Producto.nombre)</p>*@
+
                                 </div>
                             </div>
                         </td>
@@ -37,13 +53,30 @@
                         </td>
                         <td class="align-middle text-center text-sm">
                             <span class="text-secondary text-xs font-weight-bold">@Html.DisplayFor(modelItem => item.total)</span>
-                            
+
+                        </td>
+                        <td class="align-middle text-center" >
+                            @switch (item.estadoPedidoId)
+                            {
+                                case 1:
+                                    <span class="badge bg-gradient-primary">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                                    break;
+                                case 2:
+                                    <span class="badge bg-gradient-success">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                                    break;
+                                case 3:
+                                    <span class="badge bg-gradient-info">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                                    break;
+                                case 4:
+                                    <span class="badge bg-gradient-danger">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                                    break;
+                                default:
+                                    <span class="badge bg-gradient-secondary">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
+                                    break;
+                            }
                         </td>
                         <td class="align-middle text-center">
-                            <span class="badge bg-gradient-secondary">@Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)</span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <a href="@Url.Action("Details", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
+                            <a href="@Url.Action("Details", "Pedido", new { id = item.id })" class="icon-link" data-bs-toggle="tooltip" data-bs-placement="top" title="Previsualizar Usuario">
                                 <i class="fa fa-eye" style="color: forestgreen; margin-right: 10px;"></i>
                             </a>
                         </td>
@@ -56,50 +89,18 @@
     </div>
 </div>
 
-
-<!--<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id)
-        </th>
-        <th>-->
-            @*@Html.DisplayNameFor(model => model.Direccion.provincia)*@<!--\
-            Fecha Pedido
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.total)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadoPedido.descripcion)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Direccion.provincia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoPedido.descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#estadoFiltro").change(function () {
+                var selectedEstado = $(this).val();
+                if (selectedEstado === "") {
+                    $(".pedido-row").show(); // Mostrar todas las filas si no se selecciona ningún estado
+                } else {
+                    $(".pedido-row").hide(); // Ocultar todas las filas
+                    $(".estado-" + selectedEstado).show(); // Mostrar filas con el estado seleccionado
+                }
+            });
+        });
+    </script>
 }
-
-</table>-->

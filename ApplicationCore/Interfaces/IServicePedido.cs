@@ -16,5 +16,9 @@ namespace ApplicationCore.Interfaces
         IEnumerable<Pedido> GetPedidosByUser(int userId);
 
         IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId);
+
+        bool Save(Pedido pedido, List<PedidoProducto> productos);
+
+        bool CambiarEstado(int pedidoId, int estado);
     }
 }

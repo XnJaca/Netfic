@@ -8,6 +8,11 @@
     string ultimosCuatroDigitos = numeroCompleto.Substring(numeroCompleto.Length - 4);
 
     var subtotal = Model.PedidoProducto.FirstOrDefault().subtotal.ToString("N0");
+
+    string[] estados = { "PENDIENTE", "ACEPTADO", "ENVIADO", "ENTREGADO" };
+    int estadoActual = Model.estadoPedidoId;
+
+    var usuario = Session["Usuario"] as Infraestructure.Models.Usuario;
 }
 
 
@@ -29,7 +34,28 @@
                                 Code: <b>KF332</b>
                             </p>
                         </div>
+                         
+                        @if (usuario.TipoUsuario.FirstOrDefault().id == 3) // Supongo que el ID 3 corresponde a vendedor
+                        {
+                            <div class="col-lg-3 col-12 ms-auto">
+                                <h6 class="mb-3">Cambiar Estado del Pedido</h6>
+                                <div class="d-flex justify-content-between">
+                                    <form method="post" action="@Url.Action("CambiarEstado", "Pedido")">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="pedidoId" value="@Model.id" />
+                                        <select name="nuevoEstado" class="form-control">
+                                            <option value="1" @(Model.estadoPedidoId == 1 ? "selected" : "")>Pendiente</option>
+                                            <option value="2" @(Model.estadoPedidoId == 2 ? "selected" : "")>Aceptado</option>
+                                            <option value="3" @(Model.estadoPedidoId == 3 ? "selected" : "")>Enviado</option>
+                                            <option value="4" @(Model.estadoPedidoId == 4 ? "selected" : "")>Entregado</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-3">Cambiar Estado</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
                         <a href="javascript:;" class="btn bg-gradient-secondary ms-auto mb-0">Factura</a>
+
                     </div>
                 </div>
                 <div class="card-body p-3 pt-0">
@@ -39,9 +65,16 @@
                             @foreach (var pedidoProducto in Model.PedidoProducto)
                             {
                                 <div class="d-flex p-4">
-                                    <div>
-                                        <img src="@ViewBag.idFoto[pedidoProducto.Producto.id]" class="avatar avatar-xxl me-3" alt="product image">
-                                    </div>
+                                    @if (ViewBag.idFoto != null && ViewBag.idFoto.Count > 0)
+                                    {
+                                        var index = Model.PedidoProducto.ToList().FindIndex(pp => pp == pedidoProducto);
+                                        var imageUrls = ViewBag.idFoto as List<string>;
+
+                                        if (imageUrls != null && index < imageUrls.Count)
+                                        {
+                                            <img src="@imageUrls[index]" class="avatar avatar-xxl me-3" alt="product image">
+                                        }
+                                    }
                                     <div class="col-lg-4 col-md-4 col-4 text-start">
                                         <h6 class="text-lg mb-0 mt-2">@Html.DisplayFor(modelItem => pedidoProducto.Producto.nombre)</h6>
                                         <span class="badge badge-sm bg-gradient-secondary mt-3">@Html.DisplayFor(modelItem => Model.EstadoPedido.descripcion)</span>
@@ -58,51 +91,53 @@
 
                         </div>
                         @*<div class="col-lg-6 col-md-6 col-12 my-auto text-end">
-                            <a href="javascript:;" class="btn bg-gradient-info mb-0">Contactar al vendedor</a>
-                            <p class="text-sm mt-2 mb-0">¿Tienes algun problema con este producto?</p>
-                        </div>*@
+                                <a href="javascript:;" class="btn bg-gradient-info mb-0">Contactar al vendedor</a>
+                                <p class="text-sm mt-2 mb-0">¿Tienes algun problema con este producto?</p>
+                            </div>*@
                     </div>
                     <hr class="horizontal dark mt-4 mb-4">
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-12">
                             <h6 class="mb-3">Seguimiento del Pedido</h6>
                             <div class="timeline timeline-one-side">
-                                <div class="timeline-block mb-3">
-                                    <span class="timeline-step">
-                                        <i class="@(Model.EstadoPedido.id == 1 ? "ni ni-check-bold text-success text-gradient" : "ni ni-bell-55 text-secondary")"></i>
-                                    </span>
-                                    <div class="timeline-content">
-                                        <h6 class="text-dark text-sm font-weight-bold mb-0">Orden Recibida</h6>
-                                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:20 AM</p>
+                                @for (int i = 0; i < estados.Length; i++)
+                                {
+                                    string iconClass;
+
+                                    if (i < estadoActual)
+                                    {
+                                        iconClass = "fa fa-check-circle text-success";
+                                    }
+                                    else if (i == estadoActual)
+                                    {
+                                        iconClass = "fa fa-handshake-o text-primary";
+                                    }
+                                    else
+                                    {
+                                        switch (i)
+                                        {
+                                            case 1:
+                                                iconClass = "fa fa-box text-primary";
+                                                break;
+                                            case 2:
+                                                iconClass = "fa fa-truck text-primary";
+                                                break;
+                                            default:
+                                                iconClass = "fa fa-box text-primary";
+                                                break;
+                                        }
+                                    }
+
+                                    <div class="timeline-block mb-3">
+                                        <span class="timeline-step">
+                                            <i class="@iconClass"></i>
+                                        </span>
+                                        <div class="timeline-content">
+                                            <h6 class="text-dark text-sm font-weight-bold mb-0">@estados[i]</h6>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="timeline-block mb-3">
-                                    <span class="timeline-step">
-                                        <i class="@(Model.EstadoPedido.id == 2 ? "ni ni-check-bold text-success text-gradient" : "ni ni-html5 text-secondary")"></i>
-                                    </span>
-                                    <div class="timeline-content">
-                                        <h6 class="text-dark text-sm font-weight-bold mb-0">Preparando pedido #1832412</h6>
-                                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 7:21 AM</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-block mb-3">
-                                    <span class="timeline-step">
-                                        <i class="ni ni-cart text-secondary"></i>
-                                    </span>
-                                    <div class="timeline-content">
-                                        <h6 class="text-dark text-sm font-weight-bold mb-0">Pedido en camino</h6>
-                                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 8:10 AM</p>
-                                    </div>
-                                </div>
-                                <div class="timeline-block mb-3">
-                                    <span class="timeline-step">
-                                        <i class="ni ni-satisfied text-secondary"></i>
-                                    </span>
-                                    <div class="timeline-content">
-                                        <h6 class="text-dark text-sm font-weight-bold mb-0">Pedido entregrado</h6>
-                                        <p class="text-secondary font-weight-bold text-xs mt-1 mb-0">22 DEC 4:54 PM</p>
-                                    </div>
-                                </div>
+                                }
+
                             </div>
                         </div>
                         <div class="col-lg-5 col-md-6 col-12">
@@ -121,7 +156,7 @@
                                         <h6 class="mb-3 text-sm">Cliente: @Html.DisplayFor(model => model.Usuario.nombre) @Html.DisplayFor(model => model.Usuario.apellidos)</h6>
                                         <span class="mb-2 text-xs">Numero Telefono: <span class="text-dark font-weight-bold ms-2">@Html.DisplayFor(model => model.Usuario.Telefono.FirstOrDefault().numero)</span></span>
                                         <span class="mb-2 text-xs">Email: <span class="text-dark ms-2 font-weight-bold">@Html.DisplayFor(model => model.Usuario.email)</span></span>
-                                        <span class="text-xs">Direccion: <span class="text-dark ms-2 font-weight-bold">@Html.DisplayFor(model => model.Usuario.Direccion.FirstOrDefault().direccion1)</span></span>
+                                        <span class="text-xs">Direccion: <span class="text-dark ms-2 font-weight-bold">@ViewBag.direccionCompleta</span></span>
                                     </div>
                                 </li>
                             </ul>
@@ -130,22 +165,11 @@
                             <h6 class="mb-3">Resumen del pedido</h6>
                             <div class="d-flex justify-content-between">
                                 <span class="mb-2 text-sm">
-                                   Subtotal:
+                                    Subtotal:
                                 </span>
                                 <span class="text-dark font-weight-bold ms-2">&#8353 @subtotal</span>
                             </div>
-                            @*<div class="d-flex justify-content-between">
-                                <span class="mb-2 text-sm">
-                                    Delivery:
-                                </span>
-                                <span class="text-dark ms-2 font-weight-bold">$14</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span class="text-sm">
-                                    Taxes:
-                                </span>
-                                <span class="text-dark ms-2 font-weight-bold">$1.95</span>
-                            </div>*@
+
                             <div class="d-flex justify-content-between mt-4">
                                 <span class="mb-2 text-lg">
                                     Total:
@@ -155,93 +179,12 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-    <footer class="footer pt-3  ">
-        <div class="container-fluid">
-            <div class="row align-items-center justify-content-lg-between">
-                <div class="col-lg-6 mb-lg-0 mb-4">
-                    <div class="copyright text-center text-sm text-muted text-lg-start">
-                        ©
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>2023,
-                        made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                        <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                        for a better web.
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <a class="btn btn-primary font-weight-normal" href="@Url.Action("Index","Home", new {id = Model.id})"> Volver al Inicio </a>
 </div>
 
-@*<h2>Details</h2>
 
-    <div>
-        <h4>Pedido</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.total)
-            </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.total)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Direccion.provincia)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Direccion.provincia)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.EstadoPedido.descripcion)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.EstadoPedido.descripcion)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.MetodoPago.nombre)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MetodoPago.nombre)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Usuario.nombre)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Usuario.nombre)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>*@

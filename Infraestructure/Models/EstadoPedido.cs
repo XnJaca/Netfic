@@ -18,7 +18,6 @@ namespace Infraestructure.Models
         public EstadoPedido()
         {
             this.Pedido = new HashSet<Pedido>();
-            this.PedidoProducto = new HashSet<PedidoProducto>();
         }
     
         public int id { get; set; }
@@ -26,7 +25,5 @@ namespace Infraestructure.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pedido> Pedido { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PedidoProducto> PedidoProducto { get; set; }
     }
 }

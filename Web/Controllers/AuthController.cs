@@ -72,6 +72,7 @@ namespace Web.Controllers
 
 
                 Response.RemoveOutputCacheItem(Url.Action("Login", "Auth"));
+
                 Session["Usuario"] = oUsuario;
 
                 Log.Info($"Accede{oUsuario.nombre} {oUsuario.apellidos} " +
@@ -91,9 +92,20 @@ namespace Web.Controllers
 
             }
         }
+        private SelectList TipoUsuarioList(int idTipoUsuario = 0)
+        {
+            IServiceTipoUsuario _ServiceTipoUsuario = new ServiceTipoUsuario();
+            IEnumerable<TipoUsuario> lista = _ServiceTipoUsuario.GetTipoUsuarios();
+
+            // Filtrar la lista para eliminar el tipo de usuario con id igual a 1
+            lista = lista.Where(tipoUsuario => tipoUsuario.id != 1);
+
+            return new SelectList(lista, "id", "descripcion", idTipoUsuario);
+        }
 
         public ActionResult SignUp(Usuario oUsuario)
         {
+            ViewBag.idTipoUsuario = TipoUsuarioList();
             return View();
         }
 

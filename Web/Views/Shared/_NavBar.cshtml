@@ -66,15 +66,13 @@
                     </ul>
                 </li>
 
-
-
-
-                @*<li class="nav-item d-flex align-items-center">
-        <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-            <i class="fa fa-user me-sm-1"></i>
-            <span class="d-sm-inline d-none">@oUsuario.nombre</span>
-        </a>*@
-                @*</li>*@
+                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                    <a href="@Url.Action("Create", "Pedido")" class="nav-link text-body p-0" id="buttonIcon">
+                        <div class="d-flex align-items-center">
+                            <i class="fa fa-shopping-cart ms-1"></i>
+                        </div>
+                    </a>
+                </li>
 
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">

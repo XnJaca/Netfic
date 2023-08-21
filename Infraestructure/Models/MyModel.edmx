@@ -102,7 +102,6 @@
           <Property Name="productoId" Type="int" Nullable="false" />
           <Property Name="pedidoId" Type="int" Nullable="false" />
           <Property Name="cantidad" Type="int" Nullable="false" />
-          <Property Name="estadoPedidoId" Type="int" Nullable="false" />
           <Property Name="subtotal" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Producto">
@@ -297,18 +296,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PedidoProducto_EstadoPedido">
-          <End Role="EstadoPedido" Type="Self.EstadoPedido" Multiplicity="1" />
-          <End Role="PedidoProducto" Type="Self.PedidoProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadoPedido">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PedidoProducto">
-              <PropertyRef Name="estadoPedidoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PedidoProducto_Pedido">
           <End Role="Pedido" Type="Self.Pedido" Multiplicity="1" />
           <End Role="PedidoProducto" Type="Self.PedidoProducto" Multiplicity="*" />
@@ -470,10 +457,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
-          <AssociationSet Name="FK_PedidoProducto_EstadoPedido" Association="Self.FK_PedidoProducto_EstadoPedido">
-            <End Role="EstadoPedido" EntitySet="EstadoPedido" />
-            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
-          </AssociationSet>
           <AssociationSet Name="FK_PedidoProducto_Pedido" Association="Self.FK_PedidoProducto_Pedido">
             <End Role="Pedido" EntitySet="Pedido" />
             <End Role="PedidoProducto" EntitySet="PedidoProducto" />
@@ -541,7 +524,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Pedido" Relationship="Self.FK_Pedido_EstadoPedido" FromRole="EstadoPedido" ToRole="Pedido" />
-          <NavigationProperty Name="PedidoProducto" Relationship="Self.FK_PedidoProducto_EstadoPedido" FromRole="EstadoPedido" ToRole="PedidoProducto" />
         </EntityType>
         <EntityType Name="EstadoProducto">
           <Key>
@@ -604,22 +586,8 @@
           <NavigationProperty Name="EstadoPedido" Relationship="Self.FK_Pedido_EstadoPedido" FromRole="Pedido" ToRole="EstadoPedido" />
           <NavigationProperty Name="MetodoPago" Relationship="Self.FK_Pedido_MetodoPago" FromRole="Pedido" ToRole="MetodoPago" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Pedido_Usuario" FromRole="Pedido" ToRole="Usuario" />
-          <NavigationProperty Name="PedidoProducto" Relationship="Self.FK_PedidoProducto_Pedido" FromRole="Pedido" ToRole="PedidoProducto" />
           <NavigationProperty Name="Direccion" Relationship="netficModel.FK_Pedido_Direccion" FromRole="Pedido" ToRole="Direccion" />
-        </EntityType>
-        <EntityType Name="PedidoProducto">
-          <Key>
-            <PropertyRef Name="productoId" />
-            <PropertyRef Name="pedidoId" />
-          </Key>
-          <Property Name="productoId" Type="Int32" Nullable="false" />
-          <Property Name="pedidoId" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" Nullable="false" />
-          <Property Name="estadoPedidoId" Type="Int32" Nullable="false" />
-          <Property Name="subtotal" Type="Double" Nullable="false" />
-          <NavigationProperty Name="EstadoPedido" Relationship="Self.FK_PedidoProducto_EstadoPedido" FromRole="PedidoProducto" ToRole="EstadoPedido" />
-          <NavigationProperty Name="Pedido" Relationship="Self.FK_PedidoProducto_Pedido" FromRole="PedidoProducto" ToRole="Pedido" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_PedidoProducto_Producto" FromRole="PedidoProducto" ToRole="Producto" />
+          <NavigationProperty Name="PedidoProducto" Relationship="netficModel.FK_PedidoProducto_Pedido" FromRole="Pedido" ToRole="PedidoProducto" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -638,8 +606,8 @@
           <NavigationProperty Name="EstadoProducto" Relationship="Self.FK_Producto_EstadoProducto" FromRole="Producto" ToRole="EstadoProducto" />
           <NavigationProperty Name="EvaluacionProducto" Relationship="Self.FK_EvaluacionProducto_Producto" FromRole="Producto" ToRole="EvaluacionProducto" />
           <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_Producto" FromRole="Producto" ToRole="Foto" />
-          <NavigationProperty Name="PedidoProducto" Relationship="Self.FK_PedidoProducto_Producto" FromRole="Producto" ToRole="PedidoProducto" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Producto_Usuario" FromRole="Producto" ToRole="Usuario" />
+          <NavigationProperty Name="PedidoProducto" Relationship="netficModel.FK_PedidoProducto_Producto" FromRole="Producto" ToRole="PedidoProducto" />
         </EntityType>
         <EntityType Name="Telefono">
           <Key>
@@ -739,18 +707,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PedidoProducto_EstadoPedido">
-          <End Role="EstadoPedido" Type="Self.EstadoPedido" Multiplicity="1" />
-          <End Role="PedidoProducto" Type="Self.PedidoProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EstadoPedido">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PedidoProducto">
-              <PropertyRef Name="estadoPedidoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Producto_EstadoProducto">
           <End Role="EstadoProducto" Type="Self.EstadoProducto" Multiplicity="1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
@@ -835,30 +791,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PedidoProducto_Pedido">
-          <End Role="Pedido" Type="Self.Pedido" Multiplicity="1" />
-          <End Role="PedidoProducto" Type="Self.PedidoProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Pedido">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PedidoProducto">
-              <PropertyRef Name="pedidoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PedidoProducto_Producto">
-          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
-          <End Role="PedidoProducto" Type="Self.PedidoProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Producto">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="PedidoProducto">
-              <PropertyRef Name="productoId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Producto_Usuario">
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
@@ -897,7 +829,6 @@
           <EntitySet Name="Foto" EntityType="Self.Foto" />
           <EntitySet Name="MetodoPago" EntityType="Self.MetodoPago" />
           <EntitySet Name="Pedido" EntityType="Self.Pedido" />
-          <EntitySet Name="PedidoProducto" EntityType="Self.PedidoProducto" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Telefono" EntityType="Self.Telefono" />
           <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" />
@@ -921,10 +852,6 @@
           <AssociationSet Name="FK_Pedido_EstadoPedido" Association="Self.FK_Pedido_EstadoPedido">
             <End Role="EstadoPedido" EntitySet="EstadoPedido" />
             <End Role="Pedido" EntitySet="Pedido" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PedidoProducto_EstadoPedido" Association="Self.FK_PedidoProducto_EstadoPedido">
-            <End Role="EstadoPedido" EntitySet="EstadoPedido" />
-            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
           </AssociationSet>
           <AssociationSet Name="FK_Producto_EstadoProducto" Association="Self.FK_Producto_EstadoProducto">
             <End Role="EstadoProducto" EntitySet="EstadoProducto" />
@@ -954,14 +881,6 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Pedido" EntitySet="Pedido" />
           </AssociationSet>
-          <AssociationSet Name="FK_PedidoProducto_Pedido" Association="Self.FK_PedidoProducto_Pedido">
-            <End Role="Pedido" EntitySet="Pedido" />
-            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PedidoProducto_Producto" Association="Self.FK_PedidoProducto_Producto">
-            <End Role="Producto" EntitySet="Producto" />
-            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
-          </AssociationSet>
           <AssociationSet Name="FK_Producto_Usuario" Association="Self.FK_Producto_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Producto" EntitySet="Producto" />
@@ -982,6 +901,15 @@
           <AssociationSet Name="FK_Pedido_Direccion" Association="netficModel.FK_Pedido_Direccion">
             <End Role="Direccion" EntitySet="Direccion" />
             <End Role="Pedido" EntitySet="Pedido" />
+          </AssociationSet>
+          <EntitySet Name="PedidoProducto" EntityType="netficModel.PedidoProducto" />
+          <AssociationSet Name="FK_PedidoProducto_Pedido" Association="netficModel.FK_PedidoProducto_Pedido">
+            <End Role="Pedido" EntitySet="Pedido" />
+            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PedidoProducto_Producto" Association="netficModel.FK_PedidoProducto_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="PedidoProducto" EntitySet="PedidoProducto" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Direccion">
@@ -1017,6 +945,42 @@
             </Principal>
             <Dependent Role="Pedido">
               <PropertyRef Name="direccionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PedidoProducto">
+          <Key>
+            <PropertyRef Name="productoId" />
+            <PropertyRef Name="pedidoId" />
+          </Key>
+          <Property Name="productoId" Type="Int32" Nullable="false" />
+          <Property Name="pedidoId" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
+          <Property Name="subtotal" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Pedido" Relationship="netficModel.FK_PedidoProducto_Pedido" FromRole="PedidoProducto" ToRole="Pedido" />
+          <NavigationProperty Name="Producto" Relationship="netficModel.FK_PedidoProducto_Producto" FromRole="PedidoProducto" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_PedidoProducto_Pedido">
+          <End Type="netficModel.Pedido" Role="Pedido" Multiplicity="1" />
+          <End Type="netficModel.PedidoProducto" Role="PedidoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pedido">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PedidoProducto">
+              <PropertyRef Name="pedidoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PedidoProducto_Producto">
+          <End Type="netficModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="netficModel.PedidoProducto" Role="PedidoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PedidoProducto">
+              <PropertyRef Name="productoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1114,17 +1078,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PedidoProducto">
-            <EntityTypeMapping TypeName="netficModel.PedidoProducto">
-              <MappingFragment StoreEntitySet="PedidoProducto">
-                <ScalarProperty Name="productoId" ColumnName="productoId" />
-                <ScalarProperty Name="pedidoId" ColumnName="pedidoId" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="estadoPedidoId" ColumnName="estadoPedidoId" />
-                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Producto">
             <EntityTypeMapping TypeName="netficModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
@@ -1185,6 +1138,16 @@
                 <ScalarProperty Name="provincia" ColumnName="provincia" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PedidoProducto">
+            <EntityTypeMapping TypeName="netficModel.PedidoProducto">
+              <MappingFragment StoreEntitySet="PedidoProducto">
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="pedidoId" ColumnName="pedidoId" />
+                <ScalarProperty Name="productoId" ColumnName="productoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

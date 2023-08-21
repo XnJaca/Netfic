@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Infraestructure.Models.PedidoProducto>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Producto.nombre</td>
+                <td>
+                    <input type="number" class="form-control update-quantity" value="@item.cantidad" data-product-id="@item.Producto.id" data-unit-price="@item.Producto.precio" />
+                </td>
+                <td>₡ @item.Producto.precio</td>
+                <td id="subtotal">₡ @(item.subtotal)</td>
+                <td>
+                    <button class="btn btn-danger btn-sm delete-product" data-product-id="@item.Producto.id">Eliminar</button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3"></td>
+            <td><strong>Total:</strong></td>
+            <td>₡ <span id="totalAmount">0</span></td>
+        </tr>
+    </tbody>
+</table>

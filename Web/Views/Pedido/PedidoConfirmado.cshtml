@@ -1,0 +1,67 @@
+﻿@model Infraestructure.Models.Pedido
+
+@{
+    ViewBag.Title = "PedidoConfirmado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PedidoConfirmado</h2>
+
+<div>
+    <h4>Pedido</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fecha_pedido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fecha_pedido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoPedido.descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoPedido.descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetodoPago.tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetodoPago.tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion.provincia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion.provincia)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

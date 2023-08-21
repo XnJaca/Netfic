@@ -55,7 +55,7 @@ namespace Web.Controllers
         }
 
         // GET: User/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, bool isAdmin)
         {
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
             Usuario oUsuario;
@@ -101,11 +101,17 @@ namespace Web.Controllers
             return new SelectList(list, "Value", "Text", userID);
         }
 
-        private SelectList TipoUsuarioList(int idTipoUsuario = 0)
+        private SelectList TipoUsuarioList(int idTipoUsuario = 0, bool isAdmin = true)
         {
             IServiceTipoUsuario _ServiceTipoUsuario = new ServiceTipoUsuario();
             IEnumerable<TipoUsuario> lista = _ServiceTipoUsuario.GetTipoUsuarios();
 
+            if (isAdmin)
+            {
+                // Filtrar la lista para eliminar el tipo de usuario con id igual a 1
+                lista = lista.Where(tipoUsuario => tipoUsuario.id != 1);
+            }
+           
             return new SelectList(lista, "id", "descripcion", idTipoUsuario);
 
         }
@@ -130,6 +136,10 @@ namespace Web.Controllers
             try
             {
                 Usuario oUsuario = _ServiceUsuario.Save(pUsuario, tipoUsuarios, telefonos);
+                if (oUsuario.TipoUsuario.FirstOrDefault().id != 1)
+                {
+                    return RedirectToAction("Index","Auth");
+                }
                 return RedirectToAction("Index");
             }
             catch
@@ -138,7 +148,7 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, bool isAdmin = true)
         {
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
             Usuario oUsuario;

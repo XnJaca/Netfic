@@ -17,5 +17,11 @@ namespace Infraestructure.Interfaces
 
         IEnumerable<Pedido> GetPedidosByVendedor(int vendedorId);
 
+        bool Save(Pedido pedido, List<PedidoProducto> products);
+
+        bool Delete(Pedido pedido);
+
+        bool CambiarEstado(int pedido, int estado);
+
     }
 }

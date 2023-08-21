@@ -31,8 +31,8 @@ namespace Infraestructure.Models
         public virtual EstadoPedido EstadoPedido { get; set; }
         public virtual MetodoPago MetodoPago { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Direccion Direccion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PedidoProducto> PedidoProducto { get; set; }
-        public virtual Direccion Direccion { get; set; }
     }
 }

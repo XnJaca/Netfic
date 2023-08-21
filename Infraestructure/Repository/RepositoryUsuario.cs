@@ -24,7 +24,7 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oUsuario = ctx.Usuario.Include("TipoUsuario").Include("Telefono")
+                    oUsuario = ctx.Usuario.Include("TipoUsuario").Include("Telefono").Include(m => m.MetodoPago).Include(p => p.Direccion)
                     .Where(p => p.id == id).
                     FirstOrDefault<Usuario>();
                 }

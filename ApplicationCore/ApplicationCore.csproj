@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\IServiceCategoria.cs" />
     <Compile Include="Interfaces\IServiceChat.cs" />
     <Compile Include="Interfaces\IServiceDireccion.cs" />
+    <Compile Include="Interfaces\IServiceEstadoPedido.cs" />
     <Compile Include="Interfaces\IServiceEstadoProducto.cs" />
     <Compile Include="Interfaces\IServiceFoto.cs" />
     <Compile Include="Interfaces\IServiceMetodoPago.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Services\ServiceCategoria.cs" />
     <Compile Include="Services\ServiceChat.cs" />
     <Compile Include="Services\ServiceDireccion.cs" />
+    <Compile Include="Services\ServiceEstadoPedido.cs" />
     <Compile Include="Services\ServiceEstadoProducto.cs" />
     <Compile Include="Services\ServiceFoto.cs" />
     <Compile Include="Services\ServiceMetodoPago.cs" />
